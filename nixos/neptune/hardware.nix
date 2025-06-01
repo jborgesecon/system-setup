@@ -2,7 +2,9 @@
 {config, pkgs, ...}: # Standard NixOS modules
 
 {
-    imports = [ /etc/nixos/hardware-configuration.nix ];
+    imports = [
+        ./hardware-configuration.nix
+    ];
 
     # Hardware
     console.keyMap = "br-abnt2";
