@@ -21,12 +21,10 @@
         openssl
         home-manager
         kdePackages.kcalc
-        ];
+    ];
 
-    fonts.packages = with pkgs.nerd-fonts; [
-        fira-code
-        jetbrains-mono
-        hack
+    fonts.packages = with pkgs; [
+        nerdfonts
     ];
 
 }

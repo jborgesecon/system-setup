@@ -15,7 +15,6 @@ in
     alacritty
     fish
     oh-my-posh
-    neovim
     htop
     neofetch
     qdirstat

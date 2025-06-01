@@ -9,5 +9,5 @@
   ];
 
   # Ensure your system's state version is set
-  system.stateVersion = "25.05";
+  system.stateVersion = "24.11";
 }

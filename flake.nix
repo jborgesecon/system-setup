@@ -7,15 +7,14 @@
         type = "github";
         owner = "NixOS";
         repo = "nixpkgs";
-        ref = "nixos-25.05";
+        ref = "nixos-24.11";
     };
-
 
     home-manager = {
         type = "github";
         owner = "nix-community";
         repo = "home-manager";
-        ref = "release-24.05";
+        ref = "release-24.11";
         inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -65,7 +64,7 @@
             # Any extra configuration here
         ];
       };
-      homeConfiguration = {
+      homeConfigurations = {
         borges = mkHomeConfiguration "borges" [
             # Some extra configuration here
         ];

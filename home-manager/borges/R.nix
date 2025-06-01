@@ -28,5 +28,5 @@ in
   home.packages = with pkgs; [
     R
     myR
-  ]
+  ];
 }
