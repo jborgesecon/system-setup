@@ -1,4 +1,4 @@
-# ./nixos/host/system.nix
+# ./nixos/neptune/system.nix
 { config, pkgs, neptune, lib, ... }: # 'neptune' is available
 
 {
@@ -51,10 +51,7 @@
     # Enable Flakes
     nix = {
         settings = {
-            experimental-features = ["nix-command" "fakes"];
+            experimental-features = ["nix-command" "flakes"];
         };
     };
-
-    nixpkgs.config.allowUnfree = true;
-    system.stateVersion = "24.11";
 }

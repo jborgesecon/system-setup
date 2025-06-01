@@ -9,5 +9,6 @@
   ];
 
   # Ensure your system's state version is set
-  system.stateVersion = "24.11"; # Change when stable update is available
+  nixpkgs.config.allowUnfree = true;
+  system.stateVersion = "24.11";
 }
