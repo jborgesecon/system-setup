@@ -2,10 +2,10 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     # Video
     droidcam
-    # obs-studio
+    # obs-studio    # already enabled
   ];
 
   programs = {

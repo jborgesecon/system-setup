@@ -8,5 +8,6 @@
     ./vpn.nix
     ./desktop.nix
     ./dbms.nix
+    ./streaming.nix
   ];
 }

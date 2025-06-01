@@ -6,7 +6,7 @@
     ./programs.nix
     ./shell.nix
     ./R.nix
-    ./streaming.nix
+    # ./streaming.nix   # required to do on ./nixos/neptune/default
     # ./services/index.nix
   ];
 
