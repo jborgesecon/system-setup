@@ -25,4 +25,6 @@
     bisq2
     dconf-editor
   ];
+
+  programs.firefox.enable = true;
 }
