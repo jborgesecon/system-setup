@@ -9,50 +9,24 @@
         exfat
         exfatprogs
         wget
-        home-manager
         flatpak
         gnugrep
         gnused
         gcc
+        git
         gnumake42
         pkg-config
         tree
         openssh
         openssl
-
-        neovim
-        alacritty
-        fish
-        htop
-        neofetch
-        qdirstat
-
-        python3Full
-        postgresql
-        docker-compose
-        gretl
-        R
-
-        dbeaver-bin
-        postman
-        vscode
-        git
-
-        calibre
-        libreoffice
-        discord
-        telegram-desktop
-        tor
-        tor-browser
-        brave
-        bisq2
-        obs-studio
-
-        dconf-editor
-        kcalc
+        home-manager
+        kdePackages.kcalc
         ];
 
-    fonts.packages = with pkgs; [
-        nerdfonts
+    fonts.packages = with pkgs.nerd-fonts; [
+        fira-code
+        jetbrains-mono
+        hack
     ];
+
 }

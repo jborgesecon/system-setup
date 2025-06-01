@@ -7,8 +7,9 @@
         type = "github";
         owner = "NixOS";
         repo = "nixpkgs";
-        ref = "nixos-24.11";
+        ref = "nixos-25.05";
     };
+
 
     home-manager = {
         type = "github";
@@ -19,20 +20,28 @@
     };
   };
 
+      # nixpkgs.config.allowUnfree = true;
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
 
-      pkgs = nixpkgs.legacyPackages.${system};
+      # Import pkgs with unfree packages allowed
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      # Explicitly extract lib
+      lib = nixpkgs.lib;
 
       # System-wide setup
       mkNixosConfiguration = hostname: extraModules:
-        nixpkgs.lib.nixosSystem {
+        lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs pkgs; }; 
+          specialArgs = { inherit inputs pkgs; };
           modules = [
-            ./nixos/neptune/default.nix 
-            home-manager.nixosModules.home-manager 
+            ./nixos/neptune/default.nix
+            home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -40,14 +49,13 @@
             }
           ] ++ extraModules;
         };
-      
-      # Home-Manager setup
+
       mkHomeConfiguration = username: extraModules:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit inputs pkgs; }; 
+          pkgs = pkgs;
+          extraSpecialArgs = { inherit inputs pkgs; };
           modules = [
-            ./home/borges/home.nix 
+            ./home-manager/borges/default.nix
           ] ++ extraModules;
         };
     in

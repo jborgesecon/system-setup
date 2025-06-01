@@ -41,7 +41,6 @@
     # Programs
     programs = {
         xwayland.enable = true;
-        firefox.enable = true;
         dconf.enable = true;
     };
 

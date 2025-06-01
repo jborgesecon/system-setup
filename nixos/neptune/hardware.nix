@@ -9,7 +9,6 @@
     # Hardware
     console.keyMap = "br-abnt2";
     hardware = {
-        pulseaudio.enable = false;
         bluetooth = {
             enable = true;
             powerOnBoot = true;

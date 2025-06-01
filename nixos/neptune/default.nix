@@ -9,6 +9,5 @@
   ];
 
   # Ensure your system's state version is set
-  nixpkgs.config.allowUnfree = true;
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }

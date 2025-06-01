@@ -1,4 +1,4 @@
-# ./nixos/neptune/services/index.nix
+# ./nixos/host/services/index.nix
 {config, pkgs, ...}: # Standard NixOS modules
 
 {
