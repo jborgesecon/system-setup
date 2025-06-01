@@ -6,6 +6,7 @@
     ./programs.nix
     ./shell.nix
     ./R.nix
+    ./streaming.nix
     # ./services/index.nix
   ];
 

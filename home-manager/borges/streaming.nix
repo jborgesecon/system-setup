@@ -1,10 +1,11 @@
+# ./home-manager/borges/streaming.nix
 { config, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
     # Video
     droidcam
-    obs-studio
+    # obs-studio
   ];
 
   programs = {
