@@ -3,8 +3,11 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # Video
-    droidcam
+    # droidcam
+    android-tools
+    v4l-utils
+    ffmpeg-full
+    scrcpy
     # obs-studio    # already enabled
   ];
 
@@ -12,9 +15,9 @@
     obs-studio = {
       enable = true;
       enableVirtualCamera = true;
-      plugins = with pkgs.obs-studio-plugins; [
-        droidcam-obs
-      ];
+      # plugins = with pkgs.obs-studio-plugins; [
+      #   droidcam-obs
+      # ];
     };
   };
 }

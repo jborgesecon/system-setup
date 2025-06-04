@@ -14,6 +14,7 @@
     dbeaver-bin
     postman
     vscode
+    android-studio
     tor
     tor-browser
 

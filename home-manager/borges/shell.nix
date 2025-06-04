@@ -18,6 +18,7 @@ in
     htop
     neofetch
     qdirstat
+    direnv
   ];
 
   # Customize Alacritty:
