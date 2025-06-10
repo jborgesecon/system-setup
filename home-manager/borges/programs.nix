@@ -20,6 +20,7 @@
 
     calibre
     libreoffice
+    geekbench
     discord
     telegram-desktop
     brave

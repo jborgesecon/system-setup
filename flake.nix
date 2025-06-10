@@ -19,7 +19,7 @@
     };
   };
 
-      # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";

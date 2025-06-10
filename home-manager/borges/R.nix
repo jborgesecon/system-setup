@@ -20,6 +20,11 @@ let
     vars
     aod
     openxlsx
+    dotenv
+    DBI
+    RPostgres
+    tseries
+    forecast
   ];
 };
 

@@ -16,6 +16,10 @@
         libinput.enable = true;
         desktopManager.plasma6.enable = true;
         displayManager = {
+            # autoLogin = {
+            #     enable = true;
+            #     user = "guest";
+            # };
             sddm = {
                 enable = true;
                 settings = {
