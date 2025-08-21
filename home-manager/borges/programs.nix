@@ -4,11 +4,11 @@
   home.packages = with pkgs; [
     glib
     gsettings-desktop-schemas
-    gimp
-    inkscape-with-extensions
     file
+    open-sans
 
     python3Full
+    nodePackages.nodejs
     postgresql
     docker-compose
     dbeaver-bin
@@ -17,15 +17,21 @@
     android-studio
     tor
     tor-browser
+    pandoc
 
+    gimp
+    blender
+    kdePackages.kdenlive
     calibre
     libreoffice
+    texstudio
     geekbench
     discord
     telegram-desktop
     brave
     bisq2
     dconf-editor
+    qgis
   ];
 
   programs.firefox.enable = true;

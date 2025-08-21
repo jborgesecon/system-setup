@@ -17,6 +17,7 @@
         gnumake42
         pkg-config
         tree
+        wl-clipboard
         openssh
         openssl
         home-manager
