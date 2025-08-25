@@ -17,7 +17,6 @@
     android-studio
     tor
     tor-browser
-    pandoc
 
     gimp
     blender
@@ -32,6 +31,9 @@
     bisq2
     dconf-editor
     qgis
+
+    pandoc
+    ffmpeg
   ];
 
   programs.firefox.enable = true;
