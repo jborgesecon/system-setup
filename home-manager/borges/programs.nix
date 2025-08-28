@@ -34,7 +34,6 @@
 
     pandoc
     ffmpeg
-    tex
   ];
 
   programs.firefox.enable = true;
