@@ -54,7 +54,7 @@ in
   programs.tmux = {
     enable = true;
     shell = "${pkgs.fish}/bin/fish";
-    terminal = "console-256color";
+    terminal = "xterm-256color";
   };
 
   # Alacritty terminal emulator configuration

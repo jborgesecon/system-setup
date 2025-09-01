@@ -15,9 +15,11 @@
     obs-studio = {
       enable = true;
       enableVirtualCamera = true;
-      # plugins = with pkgs.obs-studio-plugins; [
-      #   droidcam-obs
-      # ];
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-multi-rtmp
+      ];
     };
   };
 }
