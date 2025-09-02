@@ -7,7 +7,6 @@
     ./shell.nix
     ./R.nix
     ./latex.nix
-    # ./streaming.nix   # required to do on ./nixos/neptune/default
     # ./services/index.nix
   ];
 
@@ -16,5 +15,30 @@
 
   # Enable Home Manager itself (so it can manage your files)
   programs.home-manager.enable = true;
-  home.stateVersion = "24.05"; # CRITICAL: Align with your nixpkgs/NixOS stateVersion
+  
+  # Disable KWallet to prevent conflicts
+  home.sessionVariables = {
+    KDE_WALLET_DISABLED = "1";
+  };
+  
+  # Override KWallet configuration to disable it
+  home.file.".config/kwalletrc".text = ''
+    [Wallet]
+    Close When Idle=false
+    Close on Screensaver=false
+    Default Wallet=kdewallet
+    Enabled=false
+    First Use=false
+    Idle Timeout=10
+    Launch Manager=false
+    Leave Manager Open=false
+    Leave Open=false
+    Prompt on Open=false
+    Use One Wallet=true
+
+    [org.freedesktop.secrets]
+    apiEnabled=false
+  '';
+  
+  home.stateVersion = "25.05"; # Update this too
 }

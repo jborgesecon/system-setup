@@ -3,12 +3,10 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # droidcam
     android-tools
     v4l-utils
     ffmpeg-full
     scrcpy
-    # obs-studio    # already enabled
   ];
 
   programs = {
@@ -19,6 +17,7 @@
         wlrobs
         obs-backgroundremoval
         obs-multi-rtmp
+        obs-advanced-masks  # Should work now!
       ];
     };
   };

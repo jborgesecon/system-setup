@@ -17,7 +17,7 @@
                 extraGroups = [ "networkmanager"];
                 packages = with pkgs; [
                     firefox
-                    konsole
+                    kdePackages.konsole
                 ];
                 initialPassword = "";
             };

@@ -43,6 +43,11 @@
         xwayland.enable = true;
         dconf.enable = true;
     };
+    
+    # Disable KWallet system-wide to prevent conflicts
+    environment.variables = {
+        KDE_WALLET_DISABLED = "1";
+    };
 
     # Enable Flatpak
     services.flatpak.enable = true;

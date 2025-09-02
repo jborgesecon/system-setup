@@ -1,5 +1,5 @@
 # ./nixos/neptune/services/packs.nix
-{config, pkgs, ...}: # Standard NixOS modules
+{config, pkgs, lib, ...}: # Added lib to inputs
 
 {
     # Install Packages
@@ -24,8 +24,10 @@
         kdePackages.kcalc
     ];
 
-    fonts.packages = with pkgs; [
-        nerdfonts
+    fonts.packages = with pkgs.nerd-fonts; [
+      fira-code
+      jetbrains-mono
+      hurmit
+      hack
     ];
-
 }

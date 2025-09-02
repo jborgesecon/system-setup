@@ -19,6 +19,7 @@
     tor-browser
 
     gimp
+    inkscape
     blender
     kdePackages.kdenlive
     calibre
@@ -34,6 +35,10 @@
 
     pandoc
     ffmpeg
+
+    (gretl.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ wrapGAppsHook ];
+    }))
   ];
 
   programs.firefox.enable = true;

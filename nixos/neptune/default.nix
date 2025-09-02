@@ -8,6 +8,6 @@
     ./services/index.nix
   ];
 
-  # Ensure your system's state version is set
-  system.stateVersion = "24.11";
+  # Update to match your target version
+  system.stateVersion = "25.05";
 }
