@@ -17,7 +17,10 @@
         wlrobs
         obs-backgroundremoval
         obs-multi-rtmp
-        obs-advanced-masks  # Should work now!
+        obs-source-clone
+        obs-source-record
+        obs-advanced-masks
+        # obs-vertical-canvas     # Exists on official npkgs channel, but conflicts with Qt6, cannot be built
       ];
     };
   };

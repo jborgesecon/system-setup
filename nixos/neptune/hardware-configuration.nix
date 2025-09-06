@@ -10,8 +10,11 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" "rtsx_usb_sdmmc" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  
+  # Blacklist KVM modules to prevent conflict with VirtualBox
+  boot.blacklistedKernelModules = [ "kvm" "kvm_intel" "kvm_amd" ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/65549dc3-322c-48a4-bf46-7ad71d5d2c5e";
