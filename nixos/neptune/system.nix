@@ -47,6 +47,12 @@
     # Enable Flatpak
     services.flatpak.enable = true;
 
+    # Environment variables for scientific computing
+    environment.variables = {
+        LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH";
+        PKG_CONFIG_PATH = "${pkgs.pkg-config}/lib/pkgconfig:$PKG_CONFIG_PATH";
+    };
+
     # Enable Flakes
     nix = {
         settings = {

@@ -7,7 +7,6 @@
     file
     open-sans
 
-    python3Full
     nodePackages.nodejs
     postgresql
     docker-compose

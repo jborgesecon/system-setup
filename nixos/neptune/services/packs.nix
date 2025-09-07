@@ -22,6 +22,22 @@
         openssl
         home-manager
         kdePackages.kcalc
+        
+        # Scientific computing dependencies (from shell.nix)
+        zlib          # Compression library (e.g., for pandas, Pillow)
+        libffi        # Foreign Function Interface library
+        zeromq        # Messaging library (for jupyter, pyzmq)
+        gfortran      # Fortran compiler (for scipy, numpy)
+        sqlite        # SQLite database library
+        libxml2       # XML parsing library
+        libxslt       # XSLT transformation library
+        freetype      # Font rendering (for matplotlib)
+        cairo         # 2D graphics library
+        
+        # Additional C++ development tools
+        stdenv.cc.cc.lib  # C++ standard library
+        cmake         # Build system generator
+        gnumake       # Make build tool
     ];
 
     fonts.packages = with pkgs.nerd-fonts; [

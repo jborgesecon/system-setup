@@ -25,6 +25,7 @@ in
     neofetch
     qdirstat
     direnv
+    nix-direnv
   ];
 
   # Fish shell configuration

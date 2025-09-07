@@ -5,6 +5,7 @@
   imports = [
     ./programs.nix
     ./shell.nix
+    ./python.nix
     ./R.nix
     ./latex.nix
     # ./services/index.nix
@@ -16,5 +17,7 @@
   # Enable Home Manager itself (so it can manage files)
   programs.home-manager.enable = true;
 
+  # Note: This should remain stable for existing home configurations unless performing major upgrades
+  # See .env file for version management strategy
   home.stateVersion = "25.05";
 }
