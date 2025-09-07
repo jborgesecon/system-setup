@@ -23,6 +23,7 @@ let
   # TensorFlow should be available with Python 3.12
   pyTensorFlow = with pkgs.python312Packages; [
     tensorflow
+    protobuf
   ];
 
   mlPackages = with pkgs.python312Packages; [
@@ -139,9 +140,6 @@ in
     c.ServerApp.port = 8888
     c.ServerApp.token = ""
     c.ServerApp.password = ""
-    
-    # Enable extensions
-    c.LabApp.collaborative = True
   '';
 
   # Python development aliases (if using fish shell)
