@@ -5,7 +5,7 @@ let
   # Define commonly used Python packages for scientific computing, data science, and development
   
   # Core scientific computing and data science packages
-  scientificPackages = with pkgs.python3Packages; [
+  scientificPackages = with pkgs.python312Packages; [
     numpy
     scipy
     pandas
@@ -15,19 +15,17 @@ let
     scikit-learn
     statsmodels
     sympy
-    manim  # May have compatibility issues with Python 3.13, can be installed via pip if needed
+    manim  # Should work better with Python 3.12
     islpy
   ];
 
   # Machine learning and AI packages
-  # Note: TensorFlow is currently not supported with Python 3.13 in nixpkgs
-  # Use PyTorch as the main deep learning framework, or install TensorFlow via pip if needed
-  pyTensorFlow = with pkgs.python313Packages; [
-    tensorflow-bin  # Currently unsupported with Python 3.13
+  # TensorFlow should be available with Python 3.12
+  pyTensorFlow = with pkgs.python312Packages; [
+    tensorflow
   ];
 
-  mlPackages = with pkgs.python3Packages; [
-
+  mlPackages = with pkgs.python312Packages; [
     torch
     torchvision
     scikit-image
@@ -37,7 +35,7 @@ let
   ];
 
   # Jupyter and notebook packages
-  jupyterPackages = with pkgs.python3Packages; [
+  jupyterPackages = with pkgs.python312Packages; [
     jupyter
     jupyterlab
     notebook
@@ -49,7 +47,7 @@ let
   ];
 
   # Web development and APIs
-  webPackages = with pkgs.python3Packages; [
+  webPackages = with pkgs.python312Packages; [
     requests
     fastapi
     flask
@@ -62,7 +60,7 @@ let
   ];
 
   # Database and storage packages
-  databasePackages = with pkgs.python3Packages; [
+  databasePackages = with pkgs.python312Packages; [
     sqlalchemy
     psycopg2
     pymongo
@@ -70,7 +68,7 @@ let
   ];
 
   # Development and testing tools
-  devPackages = with pkgs.python3Packages; [
+  devPackages = with pkgs.python312Packages; [
     pytest
     black
     flake8
@@ -81,7 +79,7 @@ let
   ];
 
   # Utility and miscellaneous packages
-  utilityPackages = with pkgs.python3Packages; [
+  utilityPackages = with pkgs.python312Packages; [
     click
     rich
     typer
@@ -95,8 +93,9 @@ let
   ];
 
   # Create the Python environment with all selected packages
-  pythonEnv = pkgs.python3.withPackages (ps: with ps; 
+  pythonEnv = pkgs.python312.withPackages (ps: with ps; 
     scientificPackages ++
+    pyTensorFlow ++
     mlPackages ++
     jupyterPackages ++
     webPackages ++
@@ -164,9 +163,8 @@ in
     
   };
 
-  # Note: Some packages like TensorFlow and Manim may not be available in nixpkgs
-  # for newer Python versions. You can install them using pip:
-  # - pip install --user tensorflow
-  # - pip install --user manim
+  # Note: Using Python 3.12 for better compatibility with TensorFlow and other packages
+  # If you need packages not available in nixpkgs for Python 3.12, you can install them using pip:
+  # - pip install --user package_name
   # The --user flag installs packages to your user directory to avoid conflicts
 }
