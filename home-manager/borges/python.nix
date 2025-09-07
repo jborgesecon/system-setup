@@ -15,13 +15,19 @@ let
     scikit-learn
     statsmodels
     sympy
-    manim
+    manim  # May have compatibility issues with Python 3.13, can be installed via pip if needed
     islpy
   ];
 
   # Machine learning and AI packages
+  # Note: TensorFlow is currently not supported with Python 3.13 in nixpkgs
+  # Use PyTorch as the main deep learning framework, or install TensorFlow via pip if needed
+  pyTensorFlow = with pkgs.python313Packages; [
+    tensorflow-bin  # Currently unsupported with Python 3.13
+  ];
+
   mlPackages = with pkgs.python3Packages; [
-    tensorflow
+
     torch
     torchvision
     scikit-image
@@ -61,7 +67,6 @@ let
     psycopg2
     pymongo
     redis
-    sqlite3
   ];
 
   # Development and testing tools
@@ -73,10 +78,6 @@ let
     isort
     autopep8
     pylint
-    pre-commit
-    tox
-    poetry
-    pip-tools
   ];
 
   # Utility and miscellaneous packages
@@ -114,7 +115,8 @@ in
     pythonEnv
     
     # Additional Python tools that aren't Python packages
-    pkgs.python3Full
+    # Note: python3Full is not needed since pythonEnv already provides a complete Python
+    pkgs.sqlite
     pkgs.pipx  # For installing Python applications in isolated environments
     pkgs.poetry  # Python dependency management
     pkgs.pyenv  # Python version management (if needed alongside Nix)
@@ -124,10 +126,6 @@ in
   home.sessionVariables = {
     # Add C++ library path for packages with native extensions
     LD_LIBRARY_PATH = "${libstdcppPath}:$LD_LIBRARY_PATH";
-    
-    # Python-specific environment variables
-    PYTHONPATH = "$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH";
-    PIP_USER = "1";  # Install pip packages to user directory by default
     
     # Jupyter configuration
     JUPYTER_CONFIG_DIR = "$HOME/.config/jupyter";
@@ -140,8 +138,8 @@ in
     c.ServerApp.ip = '127.0.0.1'
     c.ServerApp.open_browser = True
     c.ServerApp.port = 8888
-    c.ServerApp.token = ''
-    c.ServerApp.password = ''
+    c.ServerApp.token = ""
+    c.ServerApp.password = ""
     
     # Enable extensions
     c.LabApp.collaborative = True
@@ -158,12 +156,17 @@ in
     jlab = "jupyter lab";
     jnb = "jupyter notebook";
     
-    # Package management
-    pip-upgrade = "pip list --outdated --format=freeze | grep -v '^\\-e' | cut -d = -f 1 | xargs -n1 pip install -U";
     
     # Development tools
     pyformat = "black . && isort .";
     pylint-all = "find . -name '*.py' | xargs pylint";
     pytest-cov = "pytest --cov=. --cov-report=html";
+    
   };
+
+  # Note: Some packages like TensorFlow and Manim may not be available in nixpkgs
+  # for newer Python versions. You can install them using pip:
+  # - pip install --user tensorflow
+  # - pip install --user manim
+  # The --user flag installs packages to your user directory to avoid conflicts
 }

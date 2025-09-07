@@ -11,13 +11,14 @@ The `python.nix` file provides a comprehensive Python development environment in
 - **matplotlib, seaborn, plotly** - Data visualization
 - **scikit-learn, statsmodels** - Machine learning and statistics
 - **sympy** - Symbolic mathematics
-- **manim** - Mathematical animation engine for creating educational videos
 - **islpy** - Integer set library Python bindings for polyhedral computations
+- **Note**: Manim may have compatibility issues with Python 3.13. Use `install-manim` alias to install via pip if needed.
 
 ### 🤖 Machine Learning & AI
-- **tensorflow, torch, torchvision** - Deep learning frameworks
+- **torch, torchvision** - PyTorch deep learning framework
 - **scikit-image, opencv4** - Computer vision
 - **pillow, imageio** - Image processing
+- **Note**: TensorFlow is currently not available for Python 3.13 in nixpkgs. Use `install-tensorflow` alias to install via pip if needed.
 
 ### 📓 Jupyter & Interactive Development
 - **jupyter, jupyterlab, notebook** - Interactive notebooks
@@ -73,6 +74,8 @@ Automatically creates `~/.config/jupyter/jupyter_lab_config.py` with:
 - `pyformat` - Format code with black and isort
 - `pylint-all` - Lint all Python files
 - `pytest-cov` - Run tests with coverage
+- `install-tensorflow` - Install TensorFlow via pip (for Python 3.13 compatibility)
+- `install-manim` - Install Manim via pip (for Python 3.13 compatibility)
 
 ## Additional Tools
 - **python3Full** - Complete Python installation
@@ -97,6 +100,28 @@ Automatically creates `~/.config/jupyter/jupyter_lab_config.py` with:
    ```bash
    jlab
    ```
+
+### Managing Additional Packages
+While this configuration provides a comprehensive set of packages, you can:
+1. Add packages to the appropriate category in `python.nix`
+2. Use `pipx` for standalone applications
+3. Use `poetry` or virtual environments for project-specific dependencies
+
+## Python 3.13 Compatibility Notes
+
+Some packages may not yet be available in nixpkgs for Python 3.13:
+
+### Not Available in Nixpkgs (Install via pip)
+- **TensorFlow**: Use `install-tensorflow` alias or `pip install --user tensorflow`
+- **Manim**: Use `install-manim` alias or `pip install --user manim`
+
+### Why Use pip with --user?
+The `--user` flag installs packages to your user directory (`~/.local/lib/python3.13/site-packages`), avoiding conflicts with the Nix-managed Python environment while still making packages available in your PATH.
+
+### Alternative Approaches
+1. **Virtual Environments**: Use `python -m venv` for project isolation
+2. **Poetry**: Use `poetry` for dependency management
+3. **Pipx**: Use `pipx install package` for standalone applications
 
 ### Managing Additional Packages
 While this configuration provides a comprehensive set of packages, you can:

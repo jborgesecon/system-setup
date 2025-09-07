@@ -9,12 +9,12 @@
             videoDrivers = ["intel"];
             xkb.layout = "br";              # Keyboard layout
             xkb.variant = "nodeadkeys";     # Keyboard variant
-            desktopManager = {
-                gnome.enable = false;
-            };
         };
         libinput.enable = true;
-        desktopManager.plasma6.enable = true;
+        desktopManager = {
+            gnome.enable = false;
+            plasma6.enable = true;
+        };
         displayManager = {
             # autoLogin = {
             #     enable = true;
