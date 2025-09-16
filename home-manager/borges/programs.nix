@@ -23,7 +23,7 @@
     kdePackages.kdenlive
     calibre
     libreoffice
-    texstudio
+    # texstudio
     geekbench
     discord
     telegram-desktop

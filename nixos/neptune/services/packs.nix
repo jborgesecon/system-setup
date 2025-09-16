@@ -23,6 +23,11 @@
         home-manager
         kdePackages.kcalc
         
+        # GSettings support for all applications
+        glib
+        gsettings-desktop-schemas
+        gtk3
+        
         # Scientific computing dependencies (from shell.nix)
         zlib          # Compression library (e.g., for pandas, Pillow)
         libffi        # Foreign Function Interface library

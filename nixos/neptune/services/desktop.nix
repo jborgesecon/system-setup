@@ -30,4 +30,7 @@
             };
         };
     };
+
+    # Ensure GSettings schemas are available system-wide
+    environment.pathsToLink = [ "/share/gsettings-schemas" ];
 }

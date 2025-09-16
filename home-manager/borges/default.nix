@@ -7,7 +7,7 @@
     ./shell.nix
     ./python.nix
     ./R.nix
-    ./latex.nix
+    # ./latex.nix
     # ./services/index.nix
   ];
 

@@ -155,5 +155,7 @@ in
     EDITOR = "nvim";
     TERMINAL = "alacritty";
     SHELL = "${pkgs.fish}/bin/fish";
+    # Fix GSettings schemas for applications like gretl
+    XDG_DATA_DIRS = "/run/current-system/sw/share/gsettings-schemas/gsettings-desktop-schemas-48.0:/run/current-system/sw/share/gsettings-schemas/gtk+3-3.24.49:\${XDG_DATA_DIRS}";
   };
 }
