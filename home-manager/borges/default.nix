@@ -19,5 +19,5 @@
 
   # Note: This should remain stable for existing home configurations unless performing major upgrades
   # See .env file for version management strategy
-  home.stateVersion = "25.05";
+  home.stateVersion = "24.11";
 }

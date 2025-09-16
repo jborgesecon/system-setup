@@ -9,6 +9,7 @@ let
     numpy
     scipy
     pandas
+    openpyxl
     matplotlib
     seaborn
     plotly
@@ -16,7 +17,7 @@ let
     statsmodels
     sympy
     manim  # Should work better with Python 3.12
-    islpy
+    # islpy  # Temporarily disabled due to build issues with CMake not finding isl source files
   ];
 
   # Machine learning and AI packages

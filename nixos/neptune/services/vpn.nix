@@ -8,7 +8,7 @@
         openvpn.servers = {
             surfshark = {
                 config = ''
-                    config /etc/openvpn/surfshark/us-ash.prod.surfshark.com_udp.ovpn
+                    config /etc/openvpn/surfshark/ch-zur.prod.surfshark.com_udp.ovpn
                 '';
                 autoStart = false;
                 updateResolvConf = true;

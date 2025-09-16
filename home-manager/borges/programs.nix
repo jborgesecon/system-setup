@@ -34,10 +34,7 @@
 
     pandoc
     ffmpeg
-
-    (gretl.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ wrapGAppsHook ];
-    }))
+    gretl
   ];
 
   programs.firefox.enable = true;
