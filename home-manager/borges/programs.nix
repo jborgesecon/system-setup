@@ -35,6 +35,10 @@
     pandoc
     ffmpeg
     gretl
+    goverlay
+    mangohud
+
+    tesseract
   ];
 
   programs.firefox.enable = true;

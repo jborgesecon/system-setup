@@ -1,26 +1,28 @@
-# home-manager/borges/shell.nix
-{ config, pkgs, ... }:
+# Shell environment and terminal configuration
+{ config, lib, pkgs, ... }:
 
 let
+  # Fisher plugin manager source
   fisherSrc = pkgs.fetchFromGitHub {
     owner = "jorgebucaran";
     repo = "fisher";
     rev = "4.4.5";
     sha256 = "sha256-VC8LMjwIvF6oG8ZVtFQvo2mGdyAzQyluAGBoK8N2/QM=";
   };
+  
+  # Common shell
+  defaultShell = "${pkgs.fish}/bin/fish";
 in
 {
-  # Essential packages
+  # ===== PACKAGES =====
   home.packages = with pkgs; [
-    # Terminal tools
+    # Terminal environment
     alacritty
     fish
     tmux
-    
-    # Prompt and themes
     oh-my-posh
     
-    # System utilities
+    # System utilities  
     htop
     neofetch
     qdirstat
@@ -28,85 +30,68 @@ in
     nix-direnv
   ];
 
-  # Fish shell configuration
+  # ===== SHELL CONFIGURATION =====
   programs.fish = {
     enable = true;
     shellInit = ''
-      # Set custom greeting
       set -g fish_greeting "Welcome, Human!"
-      
-      # Initialize oh-my-posh
       oh-my-posh init fish --config ~/.config/oh-my-posh/themes/di4am0nd.omp.json | source
+      
+      # Export GUI-related environment variables
+      set -gx GDK_BACKEND x11
+      set -gx QT_QPA_PLATFORM xcb
+      set -gx GTK_USE_PORTAL 1
+      set -gx QT_QPA_PLATFORMTHEME kde
+      set -gx GTK_THEME "Adwaita:dark"
     '';
-    
-    # Fisher plugin manager
     plugins = [
       { name = "fisher"; src = fisherSrc; }
     ];
   };
 
-  # Oh-my-posh prompt configuration
   programs.oh-my-posh = {
     enable = true;
     useTheme = "di4am0nd";
   };
 
-  # Tmux terminal multiplexer configuration
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  # ===== TERMINAL APPLICATIONS =====
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.fish}/bin/fish";
+    shell = defaultShell;
     terminal = "xterm-256color";
   };
 
-  # Alacritty terminal emulator configuration
   programs.alacritty = {
     enable = true;
     settings = {
-      # Shell configuration
-      terminal.shell = {
-        program = "${pkgs.fish}/bin/fish";
-      };
+      terminal.shell.program = defaultShell;
       
-      # Font configuration
       font = {
-        normal = {
-          family = "FiraCode Nerd Font Mono";
-          style = "Regular";
-        };
-        bold = {
-          family = "FiraCode Nerd Font Mono";
-          style = "Bold";
-        };
-        italic = {
-          family = "FiraCode Nerd Font Mono";
-          style = "Italic";
-        };
+        normal.family = "FiraCode Nerd Font Mono";
+        bold.family = "FiraCode Nerd Font Mono"; 
+        italic.family = "FiraCode Nerd Font Mono";
         size = 12;
       };
       
-      # Window configuration
       window = {
         opacity = 0.72;
         decorations = "buttonless";
-        padding = {
-          x = 10;
-          y = 10;
-        };
+        padding = { x = 10; y = 10; };
         dynamic_title = true;
       };
       
-      # Scrolling configuration
       scrolling = {
         history = 5000;
         multiplier = 3;
       };
       
-      # Selection configuration
-      selection = {
-        save_to_clipboard = true;
-      };
+      selection.save_to_clipboard = true;
       
-      # Color scheme (optional - you can customize)
       colors = {
         primary = {
           background = "#232526";
@@ -120,42 +105,46 @@ in
     };
   };
 
-  # Neovim text editor configuration
+  # ===== EDITOR CONFIGURATION =====
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     extraConfig = ''
-      " Basic settings
       set number relativenumber
-      set tabstop=2
-      set shiftwidth=2
-      set expandtab
-      set autoindent
-      set smartindent
-      
-      " Enable syntax highlighting
+      set tabstop=2 shiftwidth=2 expandtab
+      set autoindent smartindent
       syntax enable
-      
-      " Better search
-      set incsearch
-      set hlsearch
-      set ignorecase
-      set smartcase
+      set incsearch hlsearch ignorecase smartcase
     '';
   };
 
-  # Directory environment setup
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  # Session variables
+  # ===== ENVIRONMENT VARIABLES =====
   home.sessionVariables = {
+    # Core applications
     EDITOR = "nvim";
     TERMINAL = "alacritty";
-    SHELL = "${pkgs.fish}/bin/fish";
-    # Fix GSettings schemas for applications like gretl
-    XDG_DATA_DIRS = "/run/current-system/sw/share/gsettings-schemas/gsettings-desktop-schemas-48.0:/run/current-system/sw/share/gsettings-schemas/gtk+3-3.24.49:\${XDG_DATA_DIRS}";
+    SHELL = defaultShell;
+
+    # X11/Wayland compatibility
+    GDK_BACKEND = "x11";
+    QT_QPA_PLATFORM = "xcb";
+    
+    # Desktop integration
+    GTK_USE_PORTAL = "1";
+    QT_QPA_PLATFORMTHEME = "kde";
+    GTK_THEME = "Adwaita:dark";
+    
+    # GSettings schema paths (consider using nixpkgs references instead of hardcoded paths)
+    XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas:${pkgs.gtk3}/share/gsettings-schemas:\${XDG_DATA_DIRS}";
   };
+
+  # Set systemd user environment variables for GUI applications
+  systemd.user.sessionVariables = {
+    GDK_BACKEND = "x11";
+    QT_QPA_PLATFORM = "xcb";
+    GTK_USE_PORTAL = "1";
+    QT_QPA_PLATFORMTHEME = "kde";
+    GTK_THEME = "Adwaita:dark";
+  };
+
 }

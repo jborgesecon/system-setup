@@ -25,6 +25,7 @@
         
         # GSettings support for all applications
         glib
+        glib.dev  # Includes glib-compile-schemas and other dev tools
         gsettings-desktop-schemas
         gtk3
         

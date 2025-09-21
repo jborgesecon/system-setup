@@ -85,7 +85,9 @@ let
     click
     rich
     typer
+    pdf2image
     pydantic
+    pytesseract
     python-dotenv
     configparser
     dateutil
