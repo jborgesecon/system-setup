@@ -17,6 +17,16 @@
   # Enable Home Manager itself (so it can manage files)
   programs.home-manager.enable = true;
 
+  # Add home-manager profile to PATH in session variables
+  home.sessionPath = [
+    "$HOME/.local/state/nix/profiles/home-manager/home-path/bin"
+  ];
+
+  # Ensure environment variables are properly set
+  home.sessionVariables = {
+    PATH = "$HOME/.local/state/nix/profiles/home-manager/home-path/bin:$PATH";
+  };
+
   # Note: This should remain stable for existing home configurations unless performing major upgrades
   # See .env file for version management strategy
   home.stateVersion = "24.11";

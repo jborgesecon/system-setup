@@ -39,6 +39,8 @@
     mangohud
 
     tesseract
+    haruna
+    qbittorrent
   ];
 
   programs.firefox.enable = true;
