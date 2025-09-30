@@ -19,7 +19,3 @@ sudo nix-store --gc
 sudo nix-store --optimise
 
 sudo nix-store --verify --check-contents --repair
-
-find ~/.cache -type f -atime +7 -delete
-
-sudo find /tmp -mindepth 1 -delete

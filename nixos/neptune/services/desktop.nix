@@ -12,8 +12,14 @@
         };
         libinput.enable = true;
         desktopManager = {
-            gnome.enable = false;
             plasma6.enable = true;
+        };
+        
+        # Additional KDE Plasma configuration
+        pipewire = {
+            enable = true;
+            alsa.enable = true;
+            pulse.enable = true;
         };
         displayManager = {
             # autoLogin = {

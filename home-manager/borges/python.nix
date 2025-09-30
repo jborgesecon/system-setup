@@ -1,3 +1,4 @@
+# ./home-manager/borges/python.nix
 { config, pkgs, ... }:
 
 let
@@ -17,7 +18,7 @@ let
     statsmodels
     sympy
     manim  # Should work better with Python 3.12
-    # islpy  # Temporarily disabled due to build issues with CMake not finding isl source files
+    islpy  # Temporarily disabled due to build issues with CMake not finding isl source files
   ];
 
   # Machine learning and AI packages
@@ -28,12 +29,13 @@ let
   ];
 
   mlPackages = with pkgs.python312Packages; [
-    torch
-    torchvision
-    scikit-image
+    imageio
+    lightgbm
     opencv4
     pillow
-    imageio
+    scikit-image
+    torch
+    torchvision
   ];
 
   # Jupyter and notebook packages
@@ -57,6 +59,7 @@ let
     beautifulsoup4
     selenium
     scrapy
+    streamlit
     httpx
     aiohttp
   ];

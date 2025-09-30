@@ -20,7 +20,7 @@
         obs-source-clone
         obs-source-record
         obs-advanced-masks
-        obs-vertical-canvas     # Exists on official npkgs channel, but conflicts with Qt6, cannot be built
+        # obs-vertical-canvas removed - conflicts with Qt6 in NixOS 25.05
       ];
     };
   };

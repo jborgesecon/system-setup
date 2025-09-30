@@ -47,10 +47,14 @@
     # Enable Flatpak
     services.flatpak.enable = true;
 
-    # Environment variables for scientific computing
+    # Environment variables for scientific computing and KDE
     environment.variables = {
         LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH";
         PKG_CONFIG_PATH = "${pkgs.pkg-config}/lib/pkgconfig:$PKG_CONFIG_PATH";
+        # KDE/Wayland environment variables
+        QT_QPA_PLATFORM = "wayland;xcb";
+        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+        NIXOS_OZONE_WL = "1";
     };
 
     # Enable Flakes

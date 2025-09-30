@@ -1,47 +1,66 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    glib
-    gsettings-desktop-schemas
-    file
-    open-sans
+home.packages = with pkgs; [
+  # Core System & Utilities
+  dconf-editor                          # Configuration editor for dconf
+  file                                  # Utility to determine file type
+  geekbench                             # System benchmark tool
+  glib                                  # Core application building blocks
+  gsettings-desktop-schemas             # Collection of GSettings schemas
+  tesseract                             # OCR engine
 
-    nodePackages.nodejs
-    postgresql
-    docker-compose
-    dbeaver-bin
-    postman
-    vscode
-    android-studio
-    tor
-    tor-browser
+  # Fonts
+  open-sans
 
-    gimp
-    inkscape
-    blender
-    kdePackages.kdenlive
-    calibre
-    libreoffice
-    # texstudio
-    geekbench
-    discord
-    telegram-desktop
-    brave
-    bisq2
-    dconf-editor
-    qgis
+  # Development
+  android-studio
+  dbeaver-bin
+  docker-compose
+  nodePackages.nodejs
+  postgresql
+  postman
+  vscode
 
-    pandoc
-    ffmpeg
-    gretl
-    goverlay
-    mangohud
+  # Graphics & Design
+  blender
+  gimp
+  inkscape
 
-    tesseract
-    haruna
-    qbittorrent
-  ];
+  # Multimedia
+  ffmpeg
+  haruna
+  kdePackages.kdenlive
+  yt-dlp
+
+  # Office & Productivity
+  calibre                                 # E-book manager
+  libreoffice                             # Open Office apps
+  pandoc                                  # Universal document converter
+  # texstudio                             # LaTeX editor
+
+  # Scientific & GIS
+  gretl                                   # Gnu Regression, Econometrics and Time-series Library
+  qgis                                    # Geographic Information System
+
+  # Web Browsers & Communication
+  brave
+  discord
+  telegram-desktop
+  tor-browser
+
+  # Networking & Privacy
+  qbittorrent
+  tor
+
+  # Gaming
+  goverlay                                # Overlay for Vulkan and OpenGL applications
+  mangohud                                # A Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load
+
+  # Finance
+  bisq2                                   # Decentralized Bitcoin exchange
+
+];
 
   programs.firefox.enable = true;
 }
