@@ -9,6 +9,7 @@ home.packages = with pkgs; [
   glib                                  # Core application building blocks
   gsettings-desktop-schemas             # Collection of GSettings schemas
   tesseract                             # OCR engine
+  ventoy                                # New Bootable USB Solution
 
   # Fonts
   open-sans

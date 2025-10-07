@@ -32,6 +32,7 @@ let
     imageio
     lightgbm
     opencv4
+    optuna
     pillow
     scikit-image
     torch
