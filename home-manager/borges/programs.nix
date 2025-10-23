@@ -9,7 +9,9 @@ home.packages = with pkgs; [
   glib                                  # Core application building blocks
   gsettings-desktop-schemas             # Collection of GSettings schemas
   tesseract                             # OCR engine
-  ventoy                                # New Bootable USB Solution
+  smartmontools                         # Tools for monitoring the health of hard drives
+  f3
+  # ventoy-full                                # New Bootable USB Solution
 
   # Fonts
   open-sans

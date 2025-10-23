@@ -56,11 +56,13 @@ let
     requests
     fastapi
     flask
+    flask-jwt-extended
     django
     beautifulsoup4
     selenium
     scrapy
     streamlit
+    structlog
     httpx
     aiohttp
   ];
