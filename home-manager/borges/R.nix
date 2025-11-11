@@ -1,55 +1,82 @@
 # home-manager/borges/R.nix
 { config, pkgs, ... }:
 
-
 let
   myR = pkgs.rWrapper.override {
-  packages = with pkgs.rPackages; [
-    # Development and Language Support
-    dotenv
-    here
-    languageserver
+    packages = with pkgs.rPackages; [
+      # Development and Language Support
+      dotenv
+      here
+      languageserver
 
-    # Data Manipulation and Processing
-    DBI
-    dplyr
-    openxlsx
-    tidyverse
+      # LaTeX and styling
+      texreg
+      kableExtra
+      knitr
+      stargazer
+      svglite
+      # xtable
 
-    # Database Connectivity
-    RPostgres
+      # Data Manipulation and Processing
+      DBI
+      dplyr
+      openxlsx
+      tidyverse
 
-    # Econometric and Financial Analysis
-    aod
-    plm
-    quantmod
-    tidyquant
-    timetk
-    vars
-    yfR
+      # Database Connectivity
+      RPostgres
 
-    # Time Series Analysis
-    forecast
-    tseries
+      # Econometric and Financial Analysis
+      aod
+      plm
+      quantmod
+      tidyquant
+      timetk
+      vars
+      yfR
 
-    # Visualization and Plotting
-    animation
-    DT
-    gganimate
-    ggcorrplot
-    ggplot2
-    magick
-    scales
-    shiny
-    shinythemes
-    shinyjs
-  ];
-};
+      # Time Series Analysis
+      forecast
+      rugarch
+      Rsolnp
+      truncnorm
+      tseries
+      urca
+      xts
+      zoo
+
+      # Statistical Distributions and Analysis
+      SkewHyperbolic
+      DistributionUtils
+      GeneralizedHyperbolic
+      chron
+      ks
+      FNN
+      kernlab
+      mclust
+      multicool
+      pracma
+      nloptr
+      spd
+
+      # Visualization and Plotting
+      animation
+      DT
+      gganimate
+      ggcorrplot
+      ggplot2
+      magick
+      patchwork
+      scales
+      shiny
+      shinythemes
+      shinyjs
+    ];
+  };
 
 in
 {
   home.packages = with pkgs; [
-    R
-    myR
+    myR  # Only install the wrapped R with packages, not base R
   ];
 }

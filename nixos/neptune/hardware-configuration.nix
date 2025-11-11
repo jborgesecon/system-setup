@@ -41,7 +41,12 @@
     # interfaces.wlo1.useDHCP = lib.mkDefault true;
 
     hosts = {
-      "127.0.0.1" = [ "localhost" "dev.localhost"];
+      "127.0.0.1" = [
+        "localhost" 
+        "dev.localhost"
+        "api.localhost"
+        "n8n.localhost"
+      ];
     };
   };
 

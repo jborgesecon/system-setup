@@ -53,12 +53,17 @@ let
 
   # Web development and APIs
   webPackages = with pkgs.python312Packages; [
-    requests
-    fastapi
-    flask
-    flask-jwt-extended
-    django
     beautifulsoup4
+    bcrypt
+    django
+    fastapi
+    firebase-admin
+    flask
+    flask-cors
+    flask-jwt-extended
+    flask-migrate
+    flask-sqlalchemy
+    requests
     selenium
     scrapy
     streamlit

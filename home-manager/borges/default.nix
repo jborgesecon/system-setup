@@ -17,6 +17,26 @@
   # Enable Home Manager itself (so it can manage files)
   programs.home-manager.enable = true;
 
+  # Enable systemd user services for home-manager
+  systemd.user.enable = true;
+  
+  # Service to activate home-manager on boot
+  systemd.user.services.home-manager-activation = {
+    Unit = {
+      Description = "Home Manager environment activation";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'source ~/.profile'";
+      RemainAfterExit = true;
+    };
+  };
+
   # Add home-manager profile to PATH in session variables
   home.sessionPath = [
     "$HOME/.local/state/nix/profiles/home-manager/home-path/bin"
