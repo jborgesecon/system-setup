@@ -7,44 +7,40 @@
         type = "github";
         owner = "NixOS";
         repo = "nixpkgs";
-        ref = "nixos-25.05";
+        ref = "nixos-25.11";  # ← UPDATE THIS LINE
     };
 
     home-manager = {
         type = "github";
         owner = "nix-community";
         repo = "home-manager";
-        ref = "release-25.05";
+        ref = "release-25.11";  # ← UPDATE THIS LINE
         inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  # nixpkgs.config.allowUnfree = true;
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-
-      # Import pkgs with unfree packages allowed
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-      # Explicitly extract lib
       lib = nixpkgs.lib;
 
       # System-wide setup
       mkNixosConfiguration = hostname: extraModules:
         lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs pkgs; };
+          specialArgs = { inherit inputs; };
           modules = [
+            # Configure nixpkgs to allow unfree packages
+            {
+              nixpkgs.config.allowUnfree = true;
+            }
+
             ./nixos/neptune/default.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs pkgs; };
+              home-manager.extraSpecialArgs = { inherit inputs; };
               home-manager.users.borges = import ./home-manager/borges/default.nix;
             }
           ] ++ extraModules;
@@ -52,8 +48,11 @@
 
       mkHomeConfiguration = username: extraModules:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs;
-          extraSpecialArgs = { inherit inputs pkgs; };
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = { inherit inputs; };
           modules = [
             ./home-manager/borges/default.nix
           ] ++ extraModules;
