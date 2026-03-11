@@ -8,6 +8,7 @@
         ntfs3g
         exfat
         exfatprogs
+        parted
         wget
         flatpak
         gnugrep

@@ -7,14 +7,14 @@
         type = "github";
         owner = "NixOS";
         repo = "nixpkgs";
-        ref = "nixos-25.11";  # ← UPDATE THIS LINE
+        ref = "nixos-25.05";  # ← UPDATE THIS LINE
     };
 
     home-manager = {
         type = "github";
         owner = "nix-community";
         repo = "home-manager";
-        ref = "release-25.11";  # ← UPDATE THIS LINE
+        ref = "release-25.05";  # ← UPDATE THIS LINE
         inputs.nixpkgs.follows = "nixpkgs";
     };
   };

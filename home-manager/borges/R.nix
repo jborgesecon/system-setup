@@ -8,6 +8,7 @@ let
       dotenv
       here
       languageserver
+      rmarkdown
 
       # LaTeX and styling
       texreg
@@ -22,6 +23,7 @@ let
       dplyr
       openxlsx
       tidyverse
+      rlang
 
       # Database Connectivity
       RPostgres
@@ -34,6 +36,7 @@ let
       timetk
       vars
       yfR
+      MSGARCH
 
       # Time Series Analysis
       forecast
@@ -44,6 +47,7 @@ let
       urca
       xts
       zoo
+      FinTS
 
       # Statistical Distributions and Analysis
       SkewHyperbolic
