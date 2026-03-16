@@ -1,0 +1,46 @@
+# ./inventories/group_vars/neptune.yml
+---
+profile_name: neptune
+profile_timezone: America/Sao_Paulo
+profile_locale: en_US.UTF-8
+profile_admin_user: "{{ lookup('env', 'USER') | default('john') }}"
+profile_state: provision
+
+dnf_packages:
+  # utilities
+  - gcc
+  - gcc-c++
+  - make
+  - cmake
+  - ansible
+  - unzip
+  - dnf-plugins-core
+
+  # terminal and shell
+  - htop
+  - fastfetch
+  - tree
+  - zsh
+  - alacritty
+  - neovim
+  - tmux
+
+  # Development
+  - python3
+  - docker
+  - git
+  - postgresql
+
+  # vpn & firewal
+  - firewalld
+
+
+# dnf_remove_packages:
+
+rpm_packages:
+  - name: brave-browser
+    url: https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+    description: Brave browser release channel
+
+flatpak_packages: []
+flatpak_remove_packages: []

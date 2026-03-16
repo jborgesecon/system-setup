@@ -1,33 +1,15 @@
+# ./roles/rpm/tasks/main.yml
 ---
-- name: Install third-party RPM packages
-  become: true
-  ansible.builtin.dnf:
-    name: "{{ item.url }}"
-    state: present
-    disable_gpg_check: true
+- name: Add RPM repositories
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/etc/yum.repos.d/{{ item.name }}.repo"
   loop: "{{ rpm_packages | default([]) }}"
-  loop_control:
-    label: "{{ item.name }}"
-  when:
-    - profile_state | default('provision') != 'clean'
-    - rpm_packages | default([]) | length > 0
-  tags:
-    - packages
-    - rpm
-    - saturn
+  when: profile_state == "provision"
 
-- name: Remove managed RPM packages during cleanup
-  become: true
-  ansible.builtin.dnf:
-    name: "{{ item.name }}"
+- name: Remove RPM repositories
+  ansible.builtin.file:
+    path: "/etc/yum.repos.d/{{ item.name }}.repo"
     state: absent
   loop: "{{ rpm_packages | default([]) }}"
-  loop_control:
-    label: "{{ item.name }}"
-  when:
-    - profile_state | default('provision') == 'clean'
-    - rpm_packages | default([]) | length > 0
-  tags:
-    - packages
-    - rpm
-    - cleanup
+  when: profile_state == "clean"

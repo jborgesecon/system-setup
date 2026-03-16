@@ -1,0 +1,11 @@
+# ./configs/users/main.yml
+---
+
+- name: Configure Alacritty
+  ansible.builtin.import_tasks: alacritty/main.yml
+
+- name: Configure Neovim
+  ansible.builtin.import_tasks: neovim/main.yml
+
+- name: Configure Zsh
+  ansible.builtin.import_tasks: zsh/main.yml

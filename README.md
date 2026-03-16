@@ -1,4 +1,4 @@
-# Ansible Nixlike Profiles
+# Ansible Profiles
 
 This repository provides a declarative way to manage Fedora systems using Ansible.  
 Profiles (e.g., **Saturn** for academic/research, **Neptune** for personal/portfolio) define package sets and configurations that can be rebuilt reproducibly.
@@ -15,7 +15,7 @@ Profiles (e.g., **Saturn** for academic/research, **Neptune** for personal/portf
 │   └── user/           # User-level configs (~/.config, dotfiles)
 ├── inventories/        # Profiles and variables
 │   ├── group_vars/     # Package lists and config references
-│   ├── neptune/         # Neptune profile inventory
+│   ├── neptune/        # Neptune profile inventory
 │   └── saturn/         # Saturn profile inventory
 ├── playbooks/          # Entry points for rebuild/clean
 ├── roles/              # Package manager roles
@@ -86,7 +86,7 @@ Each helper script accepts additional `ansible-playbook` arguments. For example,
 ## Profiles
 
 - **Saturn** → Academic/research environment (Fedora, PostgreSQL, Docker, Neovim).  
-- **Radial** → Personal/portfolio environment (Fedora, Brave, VSCode, shell configs).
+- **Neptune** → Personal/portfolio environment (Fedora, Brave, VSCode, shell configs).
 
 ---
 

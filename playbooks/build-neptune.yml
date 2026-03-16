@@ -1,0 +1,24 @@
+---
+- name: Build Neptune profile
+  hosts: neptune
+  become: true
+  gather_facts: true
+  vars_files:
+    - "../inventories/group_vars/neptune.yml"
+  vars:
+    repo_root: "{{ playbook_dir }}/.."
+
+  roles:
+    - dnf
+    - rpm
+    - flatpak
+
+  tasks:
+    - name: Apply setup configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/setup/main.yml"
+
+    - name: Apply system configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/system/main.yml"
+
+    - name: Apply user configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/user/main.yml"

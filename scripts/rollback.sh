@@ -2,10 +2,13 @@
 
 set -euo pipefail
 
-PROFILE=${1:-Saturn}
-if [[ $# -gt 0 ]]; then
-	shift
+if [[ $# -lt 1 ]]; then
+    echo "Error: profile argument required (e.g. Neptune or Saturn)" >&2
+    exit 1
 fi
+
+PROFILE=$1
+shift
 
 ROOT_DIR=$(cd -- "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 

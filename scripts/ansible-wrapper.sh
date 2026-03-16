@@ -13,8 +13,8 @@ Actions:
   rollback  Remove managed configs using tags=configs + profile_state=clean
 
 Examples:
-  ./scripts/ansible-wrapper.sh rebuild Saturn
-  ./scripts/ansible-wrapper.sh configs Saturn --limit saturn
+  ./scripts/ansible-wrapper.sh rebuild Neptune
+  ./scripts/ansible-wrapper.sh configs Neptune --limit neptune
 EOF
 }
 
@@ -32,12 +32,15 @@ fi
 ACTION=$1
 shift
 
-if [[ $# -gt 0 ]]; then
-	PROFILE=$1
-	shift
-else
-	PROFILE="Saturn"
+if [[ $# -lt 1 ]]; then
+    echo "Error: profile argument required (e.g. Neptune or Saturn)"
+    usage
+    exit 1
 fi
+
+PROFILE=$1
+shift
+
 
 EXTRA_ARGS=("$@")
 

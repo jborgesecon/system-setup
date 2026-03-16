@@ -1,6 +1,7 @@
+# ./playbooks/clean-system.yml
 ---
-- name: Clean Saturn-managed components
-  hosts: saturn
+- name: Clean profile-managed components
+  hosts: "{{ profile_target | default('saturn') }}"
   become: true
   gather_facts: true
   vars_files:
@@ -8,6 +9,7 @@
   vars:
     profile_state: clean
     repo_root: "{{ playbook_dir }}/.."
+
   roles:
     - dnf
     - rpm

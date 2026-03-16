@@ -1,24 +1,13 @@
+# ./roles/dnf/tasks/main.yml
 ---
-- name: Install Fedora packages for {{ profile_name | default('the profile') }}
-  become: true
+- name: Ensure DNF packages are present
   ansible.builtin.dnf:
     name: "{{ dnf_packages }}"
     state: present
-  when:
-    - profile_state | default('provision') != 'clean'
-    - dnf_packages | default([]) | length > 0
-  tags:
-    - packages
-    - dnf
-    - saturn
+  when: profile_state == "provision"
 
-- name: Remove disallowed Fedora packages
-  become: true
+- name: Ensure DNF packages are absent
   ansible.builtin.dnf:
-    name: "{{ dnf_remove_packages }}"
+    name: "{{ dnf_packages }}"
     state: absent
-  when: dnf_remove_packages | default([]) | length > 0
-  tags:
-    - packages
-    - dnf
-    - cleanup
+  when: profile_state == "clean"

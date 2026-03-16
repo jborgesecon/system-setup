@@ -1,16 +1,24 @@
 ---
-- name: Build the Saturn profile
+- name: Build Saturn profile
   hosts: saturn
   become: true
   gather_facts: true
   vars_files:
-    - "../inventories/group_vars/{{ profile_target | default('saturn') }}.yml"
+    - "../inventories/group_vars/saturn.yml"
   vars:
     repo_root: "{{ playbook_dir }}/.."
+
   roles:
     - dnf
     - rpm
     - flatpak
-    - system_setup
-    - system_configs
-    - user_configs
+
+  tasks:
+    - name: Apply setup configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/saturn/setup/main.yml"
+
+    - name: Apply system configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/saturn/system/main.yml"
+
+    - name: Apply user configs
+      ansible.builtin.import_playbook: "{{ repo_root }}/configs/saturn/user/main.yml"
