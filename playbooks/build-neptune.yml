@@ -15,10 +15,10 @@
 
   tasks:
     - name: Apply setup configs
-      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/setup/main.yml"
+      ansible.builtin.import_playbook: "../configs/neptune/setup/main.yml"
 
     - name: Apply system configs
-      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/system/main.yml"
+      ansible.builtin.import_playbook: "../configs/neptune/system/main.yml"
 
     - name: Apply user configs
-      ansible.builtin.import_playbook: "{{ repo_root }}/configs/neptune/user/main.yml"
+      ansible.builtin.import_playbook: "../configs/neptune/user/main.yml"
