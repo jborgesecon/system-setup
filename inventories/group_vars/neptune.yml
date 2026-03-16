@@ -25,14 +25,24 @@ dnf_packages:
   - neovim
   - tmux
 
-  # Development
-  - python3
-  - docker
+  # development & data analysis
   - git
+  - python3
+  - R
+  - gretl
   - postgresql
+  - docker-cli
+  - docker-compose
 
-  # vpn & firewal
+  # vpn, firewal, system management
   - firewalld
+  - qdirstat
+
+  # other apps
+  - tor
+  - qbittorrent
+  - calibre
+  - obs-studio
 
 
 # dnf_remove_packages:
@@ -44,3 +54,13 @@ rpm_packages:
 
 flatpak_packages: []
 flatpak_remove_packages: []
+
+
+# # Missing:
+#   - vscode
+#   - postman
+#   - dbeaver
+#   - virtual-box
+#   - discord
+#   - telegram
+#   - scrcpy
