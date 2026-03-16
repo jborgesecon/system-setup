@@ -1,0 +1,53 @@
+---
+- name: Ensure profile user configuration directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0755"
+  loop: "{{ user_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - user_configs | default([]) | length > 0
+  tags:
+    - configs
+    - user
+
+- name: Deploy profile user configs
+  become: true
+  ansible.builtin.copy:
+    src: "{{ repo_root }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "{{ item.mode | default('0644') }}"
+    backup: true
+  loop: "{{ user_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - user_configs | default([]) | length > 0
+  tags:
+    - configs
+    - user
+
+- name: Remove managed user configs during cleanup
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    state: absent
+  loop: "{{ user_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') == 'clean'
+    - user_configs | default([]) | length > 0
+  tags:
+    - configs
+    - user
+    - cleanup

@@ -1,0 +1,22 @@
+{
+  "data-root": "/var/lib/docker-saturn",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "bip": "172.30.0.1/24",
+  "default-address-pools": [
+    {
+      "base": "172.31.0.0/16",
+      "size": 24
+    }
+  ],
+  "registry-mirrors": [
+    "https://registry-1.docker.io"
+  ],
+  "insecure-registries": [
+    "registry.saturn.local:5000"
+  ],
+  "experimental": true
+}

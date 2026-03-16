@@ -1,0 +1,65 @@
+---
+- name: Ensure Flathub remote is configured
+  become: true
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: system
+  when:
+    - profile_state | default('provision') != 'clean'
+    - flatpak_packages | default([]) | length > 0
+  tags:
+    - packages
+    - flatpak
+    - saturn
+
+- name: Install Flatpak applications
+  become: true
+  community.general.flatpak:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    remote: "{{ item.remote | default('flathub') }}"
+    method: system
+  loop: "{{ flatpak_packages | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - flatpak_packages | default([]) | length > 0
+  tags:
+    - packages
+    - flatpak
+    - saturn
+
+- name: Remove unwanted Flatpak applications
+  become: true
+  community.general.flatpak:
+    name: "{{ item }}"
+    state: absent
+    method: system
+  loop: "{{ flatpak_remove_packages | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
+  when: flatpak_remove_packages | default([]) | length > 0
+  tags:
+    - packages
+    - flatpak
+    - cleanup
+
+- name: Remove managed Flatpaks during cleanup
+  become: true
+  community.general.flatpak:
+    name: "{{ item.name }}"
+    state: absent
+    method: system
+  loop: "{{ flatpak_packages | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - profile_state | default('provision') == 'clean'
+    - flatpak_packages | default([]) | length > 0
+  tags:
+    - packages
+    - flatpak
+    - cleanup

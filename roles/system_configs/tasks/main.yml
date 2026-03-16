@@ -1,0 +1,53 @@
+---
+- name: Ensure system config directories exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop: "{{ system_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - system_configs | default([]) | length > 0
+  tags:
+    - configs
+    - system
+
+- name: Deploy system configuration files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ repo_root }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0644') }}"
+    backup: true
+  loop: "{{ system_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - system_configs | default([]) | length > 0
+  tags:
+    - configs
+    - system
+
+- name: Remove managed system configurations during cleanup
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    state: absent
+  loop: "{{ system_configs | default([]) }}"
+  loop_control:
+    label: "{{ item.name | default(item.dest) }}"
+  when:
+    - profile_state | default('provision') == 'clean'
+    - system_configs | default([]) | length > 0
+  tags:
+    - configs
+    - system
+    - cleanup

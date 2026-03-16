@@ -1,0 +1,58 @@
+# Saturn profile Alacritty configuration
+window:
+  padding:
+    x: 8
+    y: 8
+  decorations: full
+  dynamic_padding: true
+  opacity: 0.97
+
+font:
+  normal:
+    family: "JetBrainsMono Nerd Font"
+    style: Regular
+  bold:
+    family: "JetBrainsMono Nerd Font"
+    style: Bold
+  italic:
+    family: "JetBrainsMono Nerd Font"
+    style: Italic
+  size: 12.5
+
+draw_bold_text_with_bright_colors: true
+
+colors:
+  primary:
+    background: "0x0d1117"
+    foreground: "0xc9d1d9"
+  normal:
+    black:   "0x1f2428"
+    red:     "0xff7b72"
+    green:   "0x3fb950"
+    yellow:  "0xf2cc60"
+    blue:    "0x58a6ff"
+    magenta: "0xbc8cff"
+    cyan:    "0x39c5cf"
+    white:   "0xb1bac4"
+  bright:
+    black:   "0x6e7681"
+    red:     "0xffa198"
+    green:   "0x56d364"
+    yellow:  "0xe3b341"
+    blue:    "0x79c0ff"
+    magenta: "0xd2a8ff"
+    cyan:    "0x56d4dd"
+    white:   "0xf0f6fc"
+
+cursor:
+  style:
+    shape: Beam
+    blinking: On
+  blink_interval: 750
+
+shell:
+  program: /usr/bin/zsh
+  args:
+    - --login
+
+live_config_reload: true

@@ -1,0 +1,16 @@
+---
+- name: Build the Saturn profile
+  hosts: saturn
+  become: true
+  gather_facts: true
+  vars_files:
+    - "../inventories/group_vars/{{ profile_target | default('saturn') }}.yml"
+  vars:
+    repo_root: "{{ playbook_dir }}/.."
+  roles:
+    - dnf
+    - rpm
+    - flatpak
+    - system_setup
+    - system_configs
+    - user_configs

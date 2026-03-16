@@ -1,0 +1,33 @@
+---
+- name: Install third-party RPM packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ item.url }}"
+    state: present
+    disable_gpg_check: true
+  loop: "{{ rpm_packages | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - profile_state | default('provision') != 'clean'
+    - rpm_packages | default([]) | length > 0
+  tags:
+    - packages
+    - rpm
+    - saturn
+
+- name: Remove managed RPM packages during cleanup
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ item.name }}"
+    state: absent
+  loop: "{{ rpm_packages | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - profile_state | default('provision') == 'clean'
+    - rpm_packages | default([]) | length > 0
+  tags:
+    - packages
+    - rpm
+    - cleanup

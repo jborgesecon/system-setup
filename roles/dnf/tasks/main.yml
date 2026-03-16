@@ -1,0 +1,24 @@
+---
+- name: Install Fedora packages for {{ profile_name | default('the profile') }}
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages }}"
+    state: present
+  when:
+    - profile_state | default('provision') != 'clean'
+    - dnf_packages | default([]) | length > 0
+  tags:
+    - packages
+    - dnf
+    - saturn
+
+- name: Remove disallowed Fedora packages
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ dnf_remove_packages }}"
+    state: absent
+  when: dnf_remove_packages | default([]) | length > 0
+  tags:
+    - packages
+    - dnf
+    - cleanup
