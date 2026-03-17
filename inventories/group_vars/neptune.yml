@@ -38,7 +38,8 @@ dnf_packages:
   - R
   - gretl
   - postgresql
-  - docker-cli
+  - podman
+  - podman-docker
   - docker-compose
 
   # vpn, firewal, system management
