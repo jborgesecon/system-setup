@@ -7,8 +7,8 @@
     - "../inventories/group_vars/neptune.yml"
 
   roles:
-    - dnf
     - rpm
+    - dnf
     - flatpak
 
   tasks:
