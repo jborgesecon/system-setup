@@ -4,6 +4,7 @@
   ansible.builtin.dnf:
     name: "{{ dnf_packages }}"
     state: present
+    update_cache: true
   when: profile_state == "provision"
 
 - name: Ensure DNF packages are absent
