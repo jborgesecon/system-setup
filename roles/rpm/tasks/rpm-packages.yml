@@ -1,0 +1,9 @@
+# ./roles/rpm/tasks/rpm-packages.yml
+
+# DBeaver
+- name: Install DBeaver CE
+  become: true
+  ansible.builtin.dnf:
+    name: https://dbeaver.io/files/dbeaver-ce-latest-linux-x86_64.rpm
+    state: present
+  when: profile_state == "provision"

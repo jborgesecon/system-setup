@@ -12,6 +12,15 @@ rpm_packages:
     url: https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
     description: Brave browser release channel
 
+  - name: vscode
+    url: https://packages.microsoft.com/yumrepos/vscode/config.repo
+    description: Microsoft Visual Studio Code repository
+
+  - name: virtualbox
+    url: https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
+    description: Oracle VirtualBox repository
+
+
 # DNF managed apps
 dnf_packages:
   # utilities
@@ -23,6 +32,10 @@ dnf_packages:
   - unzip
   - dnf-plugins-core
 
+  # fonts
+  - fira-code-fonts
+  - jetbrains-mono-fonts
+
   # terminal and shell
   - htop
   - fastfetch
@@ -31,6 +44,7 @@ dnf_packages:
   - alacritty
   - neovim
   - tmux
+  - httpie
 
   # development & data analysis
   - git
@@ -47,24 +61,25 @@ dnf_packages:
   - qdirstat
 
   # other apps
-  - tor
   - qbittorrent
   - calibre
   - obs-studio
-  - brave-browser
 
-# dnf_remove_packages:
+  # RPM added
+  - brave-browser
+  - code
+  # - VirtualBox
+
+
+dnf_remove_packages: []
 
 # flatpak managed apps
-flatpak_packages: []
+flatpak_packages: 
+  - io.dbeaver.DBeaverCommunity
+  - io.httpie.Httpie
+  - com.discordapp.Discord
+  - org.telegram.desktop
+  - org.torproject.torbrowser-launcher
+
+
 flatpak_remove_packages: []
-
-
-# # Missing:
-#   - vscode
-#   - postman
-#   - dbeaver
-#   - virtual-box
-#   - discord
-#   - telegram
-#   - scrcpy

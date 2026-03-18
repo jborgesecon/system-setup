@@ -1,14 +1,20 @@
 # ./roles/dnf/tasks/main.yml
 ---
 - name: Ensure DNF packages are present
+  become: true
   ansible.builtin.dnf:
     name: "{{ dnf_packages }}"
     state: present
     update_cache: true
-  when: profile_state == "provision"
+  when:
+    - profile_state == "provision"
+    - dnf_packages is defined and dnf_packages | length > 0
 
 - name: Ensure DNF packages are absent
+  become: true
   ansible.builtin.dnf:
     name: "{{ dnf_packages }}"
     state: absent
-  when: profile_state == "clean"
+  when:
+    - profile_state == "clean"
+    - dnf_packages is defined and dnf_packages | length > 0

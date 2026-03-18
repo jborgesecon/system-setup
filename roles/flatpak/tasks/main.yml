@@ -1,65 +1,35 @@
+# ./roles/flatpak/tasks/main.yml
 ---
-- name: Ensure Flathub remote is configured
+- name: Ensure flatpak package is installed
   become: true
-  community.general.flatpak_remote:
-    name: flathub
+  ansible.builtin.dnf:
+    name: flatpak
     state: present
-    url: https://dl.flathub.org/repo/flathub.flatpakrepo
-    method: system
-  when:
-    - profile_state | default('provision') != 'clean'
-    - flatpak_packages | default([]) | length > 0
-  tags:
-    - packages
-    - flatpak
-    - saturn
+  when: profile_state == "provision"
 
-- name: Install Flatpak applications
+- name: Add Flathub remote if not present
   become: true
-  community.general.flatpak:
-    name: "{{ item.name }}"
-    state: "{{ item.state | default('present') }}"
-    remote: "{{ item.remote | default('flathub') }}"
-    method: system
+  ansible.builtin.command: >
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  args:
+    warn: false
+  when:
+    - profile_state == "provision"
+
+- name: Install flatpak packages
+  become: true
+  ansible.builtin.command: >
+    flatpak install -y --noninteractive {{ item }}
   loop: "{{ flatpak_packages | default([]) }}"
-  loop_control:
-    label: "{{ item.name }}"
   when:
-    - profile_state | default('provision') != 'clean'
-    - flatpak_packages | default([]) | length > 0
-  tags:
-    - packages
-    - flatpak
-    - saturn
+    - profile_state == "provision"
+    - flatpak_packages is defined and flatpak_packages | length > 0
 
-- name: Remove unwanted Flatpak applications
+- name: Remove flatpak packages
   become: true
-  community.general.flatpak:
-    name: "{{ item }}"
-    state: absent
-    method: system
+  ansible.builtin.command: >
+    flatpak uninstall -y {{ item }}
   loop: "{{ flatpak_remove_packages | default([]) }}"
-  loop_control:
-    label: "{{ item }}"
-  when: flatpak_remove_packages | default([]) | length > 0
-  tags:
-    - packages
-    - flatpak
-    - cleanup
-
-- name: Remove managed Flatpaks during cleanup
-  become: true
-  community.general.flatpak:
-    name: "{{ item.name }}"
-    state: absent
-    method: system
-  loop: "{{ flatpak_packages | default([]) }}"
-  loop_control:
-    label: "{{ item.name }}"
   when:
-    - profile_state | default('provision') == 'clean'
-    - flatpak_packages | default([]) | length > 0
-  tags:
-    - packages
-    - flatpak
-    - cleanup
+    - profile_state == "clean"
+    - flatpak_remove_packages is defined and flatpak_remove_packages | length > 0
