@@ -1,0 +1,9 @@
+---
+# inventories/neptune/group_vars/npt/01_system.yml
+
+# Neptune profile system settings
+profile_name: neptune
+profile_timezone: America/Sao_Paulo
+profile_locale: en_US.UTF-8
+profile_admin_user: "{{ lookup('env', 'USER') | default('john') }}"
+profile_state: provision

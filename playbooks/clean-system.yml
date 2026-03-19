@@ -1,19 +1,11 @@
-# ./playbooks/clean-system.yml
 ---
+# playbooks/clean-system.yml
 - name: Clean profile-managed components
-  hosts: "{{ profile_target | default('saturn') }}"
+  hosts: all
   become: true
   gather_facts: true
-  vars_files:
-    - "../inventories/group_vars/{{ profile_target | default('saturn') }}.yml"
   vars:
     profile_state: clean
-    repo_root: "{{ playbook_dir }}/.."
 
   roles:
-    - dnf
-    - rpm
-    - flatpak
-    - system_setup
-    - system_configs
-    - user_configs
+    - role: core_packages

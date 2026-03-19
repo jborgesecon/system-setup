@@ -1,0 +1,50 @@
+---
+# roles/postgresql/tasks/main.yml
+
+- name: Check if database cluster is already initialized
+  ansible.builtin.stat:
+    path: "{{ postgresql_data_dir }}/PG_VERSION"
+  register: pgdata_version_file
+
+- name: Initialize the database cluster
+  ansible.builtin.command:
+    cmd: postgresql-setup --initdb
+  when: not pgdata_version_file.stat.exists
+
+- name: Ensure PostgreSQL is started (but not enabled on boot)
+  ansible.builtin.systemd:
+    name: "{{ postgresql_service }}"
+    state: started
+    enabled: false
+
+- name: Deploy pg_hba.conf from template
+  ansible.builtin.template:
+    src: pg_hba.conf.j2
+    dest: "{{ postgresql_data_dir }}/pg_hba.conf"
+    owner: postgres
+    group: postgres
+    mode: "0600"
+  notify: Reload postgresql
+
+- name: Flush handlers before user creation
+  ansible.builtin.meta: flush_handlers
+
+- name: Verify PostgreSQL is reachable before user tasks
+  ansible.builtin.wait_for:
+    path: "{{ postgresql_unix_socket_dir }}/.s.PGSQL.{{ postgresql_port }}"
+    state: present
+    timeout: 30
+  become: true
+  become_user: postgres
+
+- name: Create PostgreSQL users
+  community.postgresql.postgresql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    role_attr_flags: "{{ item.role_attr_flags | default('') }}"
+    login_unix_socket: "{{ postgresql_unix_socket_dir }}"
+    state: present
+  loop: "{{ postgresql_users }}"
+  become: true
+  become_user: postgres
+  when: postgresql_users | length > 0

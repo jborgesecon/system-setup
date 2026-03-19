@@ -1,0 +1,89 @@
+---
+# inventories/neptune/group_vars/npt/02_packages.yml
+# Neptune package definitions
+
+# RPM packages section
+rpm_packages:
+  - name: brave-browser
+    url: https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+    description: Brave browser release channel
+
+  - name: vscode
+    url: https://packages.microsoft.com/yumrepos/vscode/config.repo
+    description: Microsoft Visual Studio Code repository
+
+  - name: virtualbox
+    url: https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
+    description: Oracle VirtualBox repository
+
+
+# DNF managed apps
+dnf_packages:
+  # utilities
+  - gcc
+  - gcc-c++
+  - make
+  - cmake
+  - ansible
+  - unzip
+  - dnf-plugins-core
+
+  # fonts
+  - fira-code-fonts
+  - jetbrains-mono-fonts
+
+  # terminal and shell
+  - htop
+  - fastfetch
+  - tree
+  - zsh
+  - alacritty
+  - neovim
+  - tmux
+  - httpie
+
+  # development & data analysis
+  - git
+  - python3
+  - python3-dnf
+  - python3-dbus
+  - python3-gobject
+  - pipx
+  - jupyterlab
+  - R
+  - gretl
+  - postgresql
+  - postgresql-server
+  - postgresql-contrib
+  - podman
+  - podman-docker
+  - docker-compose
+
+  # vpn, firewal, system management
+  - firewalld
+  - qdirstat
+
+  # other apps
+  - firefox
+  - qbittorrent
+  - calibre
+  - obs-studio
+
+  # RPM added
+  - code
+  - brave-browser
+  - VirtualBox-7.0
+
+
+dnf_remove_packages: []
+
+# flatpak managed apps
+flatpak_packages: 
+  - io.dbeaver.DBeaverCommunity
+  - io.httpie.Httpie
+  - com.discordapp.Discord
+  - org.telegram.desktop
+  - org.torproject.torbrowser-launcher
+
+
+flatpak_remove_packages: []

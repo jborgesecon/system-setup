@@ -1,7 +1,0 @@
-# ./configs/system/main.yml
----
-- name: Configure VirtualBox
-  ansible.builtin.import_tasks: virtualbox/main.yml
-
-- name: Configure PostgreSQL
-  ansible.builtin.import_tasks: postgresql/main.yml

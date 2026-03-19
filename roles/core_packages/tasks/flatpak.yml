@@ -1,0 +1,29 @@
+---
+# roles/core_packages/tasks/flatpak.yml
+
+- name: Add Flathub remote if not present
+  become: true
+  community.general.flatpak_remote:
+    name: "{{ flatpak_remote | default('flathub') }}"
+    state: present
+    flatpakrepo_url: "{{ flatpak_remote_url | default('https://flathub.org/repo/flathub.flatpakrepo') }}"
+  when: profile_state == "provision"
+
+- name: Install flatpak packages
+  become: true
+  community.general.flatpak:
+    name: "{{ item.name | default(item) }}"
+    remote: "{{ item.remote | default(flatpak_remote | default('flathub')) }}"
+    state: present
+    method: system
+  loop: "{{ flatpak_packages | default([]) }}"
+  when: profile_state == "provision"
+
+- name: Remove flatpak packages
+  become: true
+  community.general.flatpak:
+    name: "{{ item.name | default(item) }}"
+    state: absent
+    method: system
+  loop: "{{ flatpak_remove_packages | default([]) }}"
+  when: profile_state == "clean"

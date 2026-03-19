@@ -1,0 +1,22 @@
+---
+# roles/core_packages/tasks/rpm_repos.yml
+
+- name: Add RPM repositories
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/etc/yum.repos.d/{{ item.name }}.repo"
+    mode: '0644'
+    validate_certs: yes
+  loop: "{{ rpm_packages | default([]) }}"
+  when:
+    - profile_state == "provision"
+    - item.url is defined and item.url | length > 0
+
+- name: Remove RPM repositories
+  become: true
+  ansible.builtin.file:
+    path: "/etc/yum.repos.d/{{ item.name }}.repo"
+    state: absent
+  loop: "{{ rpm_packages | default([]) }}"
+  when: profile_state == "clean"

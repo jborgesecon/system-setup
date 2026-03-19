@@ -1,0 +1,31 @@
+---
+# inventories/neptune/group_vars/npt/03_dbms.yml
+
+# PostgreSQL configuration for Neptune (latest version)
+postgresql_service: postgresql
+postgresql_data_dir: /var/lib/pgsql/data
+postgresql_port: 5432
+postgresql_unix_socket_dir: /var/run/postgresql
+postgresql_hba_rules:
+  - comment: "postgres user — no password required"
+    type: local
+    database: all
+    user: postgres
+    method: trust
+  - comment: "all other local users — md5"
+    type: local
+    database: all
+    user: all
+    method: md5
+  - comment: "IPv4 local — md5"
+    type: host
+    database: all
+    user: all
+    address: "127.0.0.1/32"
+    method: md5
+  - comment: "IPv6 local — md5"
+    type: host
+    database: all
+    user: all
+    address: "::1/128"
+    method: md5

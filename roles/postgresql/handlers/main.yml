@@ -1,0 +1,7 @@
+---
+# roles/postgresql/handlers/main.yml
+
+- name: Reload postgresql
+  ansible.builtin.systemd:
+    name: "{{ postgresql_service }}"
+    state: reloaded

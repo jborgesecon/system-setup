@@ -1,0 +1,9 @@
+---
+# roles/postgresql/defaults/main.yml
+
+postgresql_service: postgresql
+postgresql_data_dir: /var/lib/pgsql/data
+postgresql_port: 5432
+postgresql_unix_socket_dir: /var/run/postgresql
+postgresql_hba_rules: []
+postgresql_users: []

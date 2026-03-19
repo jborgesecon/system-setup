@@ -1,0 +1,8 @@
+---
+# inventories/neptune/group_vars/npt/05_stat.yml
+# Neptune R toolchain configuration
+npt_r_copr_repo: iucar/cran
+npt_r_copr_repo_marker: /etc/yum.repos.d/_copr_iucar-cran.repo
+npt_r_copr_plugin: "dnf-command(copr)"
+npt_r_packages:
+  - R-CoprManager

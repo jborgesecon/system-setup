@@ -1,0 +1,15 @@
+---
+# inventories/neptune/group_vars/npt/04_virtualization.yml
+# Neptune VirtualBox configuration
+npt_virtualbox_vboxconfig_path: /sbin/vboxconfig
+npt_virtualbox_kernel_module: "/lib/modules/{{ ansible_kernel }}/misc/vboxdrv.ko"
+npt_virtualbox_group: vboxusers
+npt_virtualbox_users:
+  - "{{ profile_admin_user }}"
+
+# Neptune R toolchain configuration
+npt_r_copr_repo: iucar/cran
+npt_r_copr_repo_marker: /etc/yum.repos.d/_copr_iucar-cran.repo
+npt_r_copr_plugin: "dnf-command(copr)"
+npt_r_packages:
+  - R-CoprManager

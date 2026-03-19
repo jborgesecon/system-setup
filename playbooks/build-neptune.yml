@@ -1,22 +1,11 @@
 ---
+# playbooks/build-neptune.yml
+
 - name: Build Neptune profile
-  hosts: neptune
+  hosts: npt
   become: true
   gather_facts: true
-  vars_files:
-    - "../inventories/group_vars/neptune.yml"
 
   roles:
-    - rpm
-    - dnf
-    - flatpak
-
-  tasks:
-    - name: Apply setup configs
-      ansible.builtin.import_tasks: "../configs/neptune/setup/main.yml"
-
-    - name: Apply system configs
-      ansible.builtin.import_tasks: "../configs/neptune/system/main.yml"
-
-    - name: Apply user configs
-      ansible.builtin.import_tasks: "../configs/neptune/user/main.yml"
+    - role: core_packages
+    - role: postgresql

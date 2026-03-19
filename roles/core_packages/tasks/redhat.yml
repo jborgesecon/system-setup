@@ -1,0 +1,8 @@
+---
+# roles/core_packages/tasks/redhat.yml
+
+- name: Manage custom third-party RPM repositories
+  ansible.builtin.include_tasks: rpm_repos.yml
+
+- name: Manage base DNF packages
+  ansible.builtin.include_tasks: dnf_packages.yml

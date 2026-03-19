@@ -1,0 +1,27 @@
+---
+# roles/core_packages/tasks/main.yml
+
+
+# 1. Manage extra RPM repositories when requested
+- name: Manage RPM repositories
+  ansible.builtin.include_tasks: rpm_repos.yml
+  when: rpm_packages is defined and rpm_packages | length > 0
+
+# 2. Manage RPM-family (DNF) packages
+- name: Run DNF package tasks
+  ansible.builtin.include_tasks: dnf_packages.yml
+  when:
+    - ansible_pkg_mgr is defined
+    - ansible_pkg_mgr in ['dnf', 'dnf5']
+
+# 3. Manage APT packages when running on Debian/Ubuntu
+- name: Run APT package tasks
+  ansible.builtin.include_tasks: apt.yml
+  when:
+    - ansible_pkg_mgr is defined
+    - ansible_pkg_mgr == 'apt'
+
+# 4. Run Flatpak tasks for everyone (if they have flatpaks defined)
+- name: Run cross-platform Flatpak tasks
+  ansible.builtin.include_tasks: flatpak.yml
+  when: flatpak_packages is defined or flatpak_remove_packages is defined
