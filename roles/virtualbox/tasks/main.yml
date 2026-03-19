@@ -1,0 +1,28 @@
+---
+# roles/virtualbox/tasks/main.yml
+
+- name: Build VirtualBox kernel modules
+  become: true
+  ansible.builtin.command: "{{ virtualbox_vboxconfig_path }}"
+  args:
+    creates: "{{ virtualbox_kernel_module }}"
+  when: profile_state == "provision"
+
+- name: Ensure VirtualBox group exists
+  become: true
+  ansible.builtin.group:
+    name: "{{ virtualbox_group }}"
+    state: present
+  when: profile_state == "provision"
+
+- name: Add users to VirtualBox group
+  become: true
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ virtualbox_group }}"
+    append: true
+  loop: "{{ virtualbox_users | default([]) }}"
+  when:
+    - profile_state == "provision"
+    - virtualbox_users is defined
+    - virtualbox_users | length > 0

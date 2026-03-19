@@ -1,7 +1,15 @@
-1. On Fedora, the bspm package is available as R-CoprManager, and enabled by default:
+1. Install VirtualBox via DNF (already handled by 02_packages.yml — VirtualBox-7.0)
 
-$ dnf --version | grep -q dnf5 || sudo dnf install 'dnf-command(copr)'
-$ sudo dnf copr enable iucar/cran
-$ sudo dnf install R-CoprManager
+2. Build the kernel modules: 
+sudo /sbin/vboxconfig
 
-note: more on: https://cran.r-project.org/web/packages/bspm/readme/README.html
+3. Ensure the vboxusers group exists: 
+sudo groupadd vboxusers
+
+4. Add your user to the group: 
+sudo usermod -aG vboxusers <your_user>
+
+5. Log out and back in for the group membership to take effect
+
+6. Verify the kernel module loaded: 
+lsmod | grep vboxdrv
