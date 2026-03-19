@@ -1,0 +1,9 @@
+---
+# roles/tmux/defaults/main.yml
+
+tmux_config_dir: "/home/{{ profile_admin_user }}/.config/tmux"
+tmux_shell: /bin/zsh
+tmux_terminal: xterm-256color
+tmux_history_limit: 5000
+tmux_base_index: 1
+tmux_mouse: true

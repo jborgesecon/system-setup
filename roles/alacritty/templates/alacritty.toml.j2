@@ -1,0 +1,41 @@
+# Ansible-managed — do not edit manually
+# {{ ansible_managed }}
+
+[terminal]
+shell = "{{ alacritty_shell }}"
+
+[font]
+size = {{ alacritty_font_size }}
+
+[font.normal]
+family = "{{ alacritty_font_family }}"
+
+[font.bold]
+family = "{{ alacritty_font_family }}"
+
+[font.italic]
+family = "{{ alacritty_font_family }}"
+
+[window]
+opacity = {{ alacritty_opacity }}
+decorations = "buttonless"
+dynamic_title = true
+
+[window.padding]
+x = {{ alacritty_padding_x }}
+y = {{ alacritty_padding_y }}
+
+[scrolling]
+history = {{ alacritty_scrollback }}
+multiplier = {{ alacritty_scroll_multiplier }}
+
+[selection]
+save_to_clipboard = true
+
+[colors.primary]
+background = "{{ alacritty_color_background }}"
+foreground = "{{ alacritty_color_foreground }}"
+
+[colors.selection]
+background = "{{ alacritty_color_selection_bg }}"
+text = "{{ alacritty_color_selection_fg }}"

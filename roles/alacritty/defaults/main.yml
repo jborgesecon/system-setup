@@ -1,0 +1,16 @@
+---
+# roles/alacritty/defaults/main.yml
+
+alacritty_config_dir: "/home/{{ profile_admin_user }}/.config/alacritty"
+alacritty_shell: /bin/zsh
+alacritty_font_family: Fira Code
+alacritty_font_size: 12
+alacritty_opacity: 0.72
+alacritty_padding_x: 10
+alacritty_padding_y: 10
+alacritty_scrollback: 5000
+alacritty_scroll_multiplier: 3
+alacritty_color_background: "#232526"
+alacritty_color_foreground: "#cdd6f4"
+alacritty_color_selection_bg: "#585b70"
+alacritty_color_selection_fg: "#cdd6f4"

@@ -11,3 +11,6 @@
     - role: postgresql
     - role: python
     - role: r_lang
+    - role: alacritty
+    - role: tmux
+    - role: zsh

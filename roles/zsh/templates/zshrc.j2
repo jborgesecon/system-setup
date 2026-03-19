@@ -1,0 +1,19 @@
+# Ansible-managed — do not edit manually
+# {{ ansible_managed }}
+
+# ===== zinit =====
+ZINIT_HOME="{{ zsh_zinit_dir }}"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# ===== powerlevel10k =====
+zinit ice depth=1; zinit light {{ zsh_p10k_theme }}
+
+# ===== plugins =====
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+autoload -U compinit && compinit
+
+# p10k wizard output lives below — added on first terminal open
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh

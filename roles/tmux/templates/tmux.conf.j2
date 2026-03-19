@@ -1,0 +1,17 @@
+# Ansible-managed — do not edit manually
+# {{ ansible_managed }}
+
+set -g default-shell {{ tmux_shell }}
+set -g default-terminal "{{ tmux_terminal }}"
+set -g history-limit {{ tmux_history_limit }}
+set -g base-index {{ tmux_base_index }}
+set -g mouse {{ "on" if tmux_mouse else "off" }}
+
+# panes follow window index
+setw -g pane-base-index {{ tmux_base_index }}
+
+# re-number windows on close
+set -g renumber-windows on
+
+# reduce escape-time for neovim
+set -sg escape-time 10

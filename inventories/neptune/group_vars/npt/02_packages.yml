@@ -25,7 +25,7 @@ dnf_packages:
   - make
   - cmake
   - ansible
-  - unzip
+  - acl
   - dnf-plugins-core
 
   # fonts
@@ -33,14 +33,15 @@ dnf_packages:
   - jetbrains-mono-fonts
 
   # terminal and shell
-  - htop
+  - alacritty
+  - tmux
+  - zsh
+  - neovim
+  - httpie
   - fastfetch
   - tree
-  - zsh
-  - alacritty
-  - neovim
-  - tmux
-  - httpie
+  - htop
+  - unzip
 
   # development & data analysis
   - git

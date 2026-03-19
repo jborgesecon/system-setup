@@ -1,0 +1,20 @@
+---
+# roles/tmux/tasks/main.yml
+
+- name: Ensure tmux config directory exists
+  ansible.builtin.file:
+    path: "{{ tmux_config_dir }}"
+    state: directory
+    mode: "0755"
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Deploy tmux.conf from template
+  ansible.builtin.template:
+    src: tmux.conf.j2
+    dest: "{{ tmux_config_dir }}/tmux.conf"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  become_user: "{{ profile_admin_user }}"

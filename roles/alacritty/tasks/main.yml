@@ -1,0 +1,20 @@
+---
+# roles/alacritty/tasks/main.yml
+
+- name: Ensure alacritty config directory exists
+  ansible.builtin.file:
+    path: "{{ alacritty_config_dir }}"
+    state: directory
+    mode: "0755"
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Deploy alacritty.toml from template
+  ansible.builtin.template:
+    src: alacritty.toml.j2
+    dest: "{{ alacritty_config_dir }}/alacritty.toml"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  become_user: "{{ profile_admin_user }}"

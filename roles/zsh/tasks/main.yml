@@ -1,0 +1,28 @@
+---
+# roles/zsh/tasks/main.yml
+
+- name: Ensure zinit parent directory exists
+  ansible.builtin.file:
+    path: "{{ zsh_zinit_dir | dirname }}"
+    state: directory
+    mode: "0755"
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Clone zinit
+  ansible.builtin.git:
+    repo: "{{ zsh_zinit_repo }}"
+    dest: "{{ zsh_zinit_dir }}"
+    depth: 1
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Deploy .zshrc from template
+  ansible.builtin.template:
+    src: zshrc.j2
+    dest: "{{ zsh_zshrc_path }}"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  become_user: "{{ profile_admin_user }}"
