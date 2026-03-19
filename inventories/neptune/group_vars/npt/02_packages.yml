@@ -17,6 +17,11 @@ rpm_packages:
     description: Oracle VirtualBox repository
 
 
+
+# COPR repositories needed before installing packages
+dnf_copr_repos:
+  - aquacash5/nerd-fonts
+
 # DNF managed apps
 dnf_packages:
   # utilities
@@ -29,7 +34,7 @@ dnf_packages:
   - dnf-plugins-core
 
   # fonts
-  - fira-code-fonts
+  - fira-code-nerd-fonts
   - jetbrains-mono-fonts
 
   # terminal and shell

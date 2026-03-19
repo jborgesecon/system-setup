@@ -3,7 +3,7 @@
 
 alacritty_config_dir: "/home/{{ profile_admin_user }}/.config/alacritty"
 alacritty_shell: /bin/zsh
-alacritty_font_family: Fira Code
+alacritty_font_family: FiraCode Nerd Font Mono
 alacritty_font_size: 12
 alacritty_opacity: 0.72
 alacritty_padding_x: 10

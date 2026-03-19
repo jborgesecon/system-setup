@@ -1,0 +1,24 @@
+---
+# roles/neovim/tasks/main.yml
+
+- name: Ensure ~/.config parent directory exists
+  ansible.builtin.file:
+    path: "/home/{{ profile_admin_user }}/.config"
+    state: directory
+    mode: "0755"
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Clone LazyVim starter
+  ansible.builtin.git:
+    repo: "{{ neovim_lazyvim_repo }}"
+    dest: "{{ neovim_config_dir }}"
+    depth: 1
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
+- name: Ensure npm is installed for Mason LSP dependencies
+  become: true
+  ansible.builtin.dnf:
+    name: nodejs-npm
+    state: present

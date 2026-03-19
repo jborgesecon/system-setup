@@ -1,6 +1,29 @@
 ---
 # roles/core_packages/tasks/dnf_packages.yml
 
+- name: Ensure COPR plugin is available when needed
+  become: true
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+  when:
+    - profile_state == "provision"
+    - dnf_copr_repos is defined
+    - dnf_copr_repos | length > 0
+
+- name: Enable required COPR repositories
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf copr enable -y {{ item }}"
+    creates: "/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:{{ item | replace('/', ':') }}.repo"
+  loop: "{{ dnf_copr_repos | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - profile_state == "provision"
+    - dnf_copr_repos is defined
+    - dnf_copr_repos | length > 0
+
 - name: Ensure DNF packages are present
   become: true
   ansible.builtin.dnf:

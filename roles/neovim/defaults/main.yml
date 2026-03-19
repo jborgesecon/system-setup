@@ -1,0 +1,5 @@
+---
+# roles/neovim/defaults/main.yml
+
+neovim_config_dir: "/home/{{ profile_admin_user }}/.config/nvim"
+neovim_lazyvim_repo: https://github.com/LazyVim/starter.git
