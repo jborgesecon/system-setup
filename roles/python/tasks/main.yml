@@ -1,2 +1,34 @@
 ---
 # roles/python/tasks/main.yml
+
+- name: Install core Python scientific stack via RPMs
+  ansible.builtin.dnf:
+    name:
+      # core data & analysis
+      - python3-numpy
+      - python3-pandas
+      - python3-scipy
+      - python3-scikit-learn
+      - python3-statsmodels
+
+      # visualization
+      - python3-matplotlib
+      - python3-seaborn
+      - python3-plotly
+
+      # access & workflow
+      - python3-requests
+      - python3-openpyxl
+      - python3-psycopg2
+      - python3-sqlalchemy
+
+      # other
+      - python3-jupyter-core
+      - python3-flask
+      - python3-faker
+    state: present
+
+- name: Install Streamlit globally with pipx
+  community.general.pipx:
+    name: streamlit
+    state: present

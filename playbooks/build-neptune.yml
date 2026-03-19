@@ -9,3 +9,4 @@
   roles:
     - role: core_packages
     - role: postgresql
+    - role: python
