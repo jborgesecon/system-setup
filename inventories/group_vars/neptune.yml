@@ -49,9 +49,16 @@ dnf_packages:
   # development & data analysis
   - git
   - python3
+  - python3-dnf
+  - python3-dbus
+  - python3-gobject
+  - pipx
+  - jupyterlab
   - R
   - gretl
   - postgresql
+  - postgresql-server
+  - postgresql-contrib
   - podman
   - podman-docker
   - docker-compose
@@ -61,14 +68,15 @@ dnf_packages:
   - qdirstat
 
   # other apps
+  - firefox
   - qbittorrent
   - calibre
   - obs-studio
 
   # RPM added
-  - brave-browser
   - code
-  # - VirtualBox
+  - brave-browser
+  - VirtualBox-7.0
 
 
 dnf_remove_packages: []

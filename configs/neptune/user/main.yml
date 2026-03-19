@@ -1,6 +1,5 @@
 # ./configs/users/main.yml
 ---
-
 - name: Configure Alacritty
   ansible.builtin.import_tasks: alacritty/main.yml
 
@@ -9,3 +8,9 @@
 
 - name: Configure Zsh
   ansible.builtin.import_tasks: zsh/main.yml
+
+- name: Configure R
+  ansible.builtin.import_tasks: R/main.yml
+
+- name: Configure Python3
+  ansible.builtin.import_tasks: python/main.yml

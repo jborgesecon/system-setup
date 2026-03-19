@@ -1,0 +1,17 @@
+# ./configs/neptune/system/virtualbox/main.yml
+---
+- name: Run vboxconfig to build kernel modules
+  command: /sbin/vboxconfig
+  args:
+    creates: /lib/modules/{{ ansible_kernel }}/misc/vboxdrv.ko
+
+- name: Ensure vboxusers group exists
+  group:
+    name: vboxusers
+    state: present
+
+- name: Add current user to vboxusers
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: vboxusers
+    append: yes

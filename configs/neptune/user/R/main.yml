@@ -1,0 +1,23 @@
+# ./configs/neptune/system/R/main.yml
+---
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Ensure dnf-command(copr) is installed if not using dnf5
+  ansible.builtin.dnf:
+    name: "dnf-command(copr)"
+    state: present
+  when:
+    - ansible_facts.packages is defined
+    - "'dnf5' not in ansible_facts.packages"
+
+- name: Enable COPR repository for CRAN
+  command: dnf copr enable -y iucar/cran
+  args:
+    creates: /etc/yum.repos.d/_copr_iucar-cran.repo
+
+- name: Install R-CoprManager
+  dnf:
+    name: R-CoprManager
+    state: present
