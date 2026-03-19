@@ -10,3 +10,4 @@
     - role: core_packages
     - role: postgresql
     - role: python
+    - role: r_lang

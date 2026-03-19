@@ -1,0 +1,8 @@
+---
+# roles/r_lang/defaults/main.yml
+
+profile_state: provision
+r_copr_plugin: ""
+r_copr_repo: ""
+r_copr_repo_marker: ""
+r_packages: []

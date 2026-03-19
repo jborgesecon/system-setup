@@ -1,0 +1,26 @@
+---
+# roles/r_lang/tasks/main.yml
+
+- name: Gather package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install DNF COPR plugin (dnf4 only)
+  become: true
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+  when: "'dnf5' not in ansible_facts.packages"
+
+- name: Enable iucar/cran COPR repository
+  become: true
+  ansible.builtin.command:
+    cmd: dnf copr enable -y iucar/cran
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:iucar:cran.repo
+
+- name: Install R-CoprManager (bspm bridge)
+  become: true
+  ansible.builtin.dnf:
+    name: R-CoprManager
+    state: present
