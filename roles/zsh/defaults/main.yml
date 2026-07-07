@@ -4,4 +4,5 @@
 zsh_zinit_repo: https://github.com/zdharma-continuum/zinit.git
 zsh_zinit_dir: "/home/{{ profile_admin_user }}/.local/share/zinit/zinit.git"
 zsh_zshrc_path: "/home/{{ profile_admin_user }}/.zshrc"
+zsh_history_path: "/home/{{ profile_admin_user }}/.zsh_history"
 zsh_p10k_theme: romkatv/powerlevel10k

@@ -15,3 +15,4 @@
     - role: tmux
     - role: zsh
     - role: neovim
+    - role: virtualbox

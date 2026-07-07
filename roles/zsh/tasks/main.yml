@@ -17,6 +17,18 @@
   become: true
   become_user: "{{ profile_admin_user }}"
 
+- name: Ensure .zsh_history file exists
+  ansible.builtin.file:
+    path: "{{ zsh_history_path }}"
+    state: touch
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+  become: true
+  become_user: "{{ profile_admin_user }}"
+
 - name: Deploy .zshrc from template
   ansible.builtin.template:
     src: zshrc.j2
