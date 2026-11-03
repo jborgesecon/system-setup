@@ -1,0 +1,162 @@
+---
+# roles/publishing_tools/tasks/main.yml
+
+- name: Ensure local opt and bin directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0755"
+  loop:
+    - "/home/{{ profile_admin_user }}/.local"
+    - "/home/{{ profile_admin_user }}/.local/opt"
+    - "{{ quarto_bin_dir }}"
+  become: true
+
+- name: Check Quarto installed version
+  ansible.builtin.stat:
+    path: "{{ quarto_install_dir }}/.version"
+  register: quarto_version_stat
+  become: true
+
+- name: Read installed Quarto version
+  ansible.builtin.slurp:
+    src: "{{ quarto_install_dir }}/.version"
+  register: quarto_version_slurped
+  when: quarto_version_stat.stat.exists
+  become: true
+
+- name: Set Quarto install fact
+  ansible.builtin.set_fact:
+    quarto_installed_version: "{{ (quarto_version_slurped.content | b64decode | trim) if quarto_version_stat.stat.exists else '' }}"
+
+- name: Ensure Quarto install directory exists
+  ansible.builtin.file:
+    path: "{{ quarto_install_dir }}"
+    state: directory
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0755"
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Download Quarto tarball
+  ansible.builtin.get_url:
+    url: "https://github.com/quarto-dev/quarto-cli/releases/download/v{{ quarto_version }}/quarto-{{ quarto_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/quarto-{{ quarto_version }}-linux-amd64.tar.gz"
+    mode: "0644"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Extract Quarto tarball
+  ansible.builtin.unarchive:
+    src: "/tmp/quarto-{{ quarto_version }}-linux-amd64.tar.gz"
+    dest: "{{ quarto_install_dir }}"
+    remote_src: true
+    extra_opts:
+      - "--strip-components=1"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Ensure Quarto files are recursively owned by admin user
+  ansible.builtin.file:
+    path: "{{ quarto_install_dir }}"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    recurse: true
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Write Quarto version file
+  ansible.builtin.copy:
+    content: "{{ quarto_version }}"
+    dest: "{{ quarto_install_dir }}/.version"
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Clean up Quarto temporary archive
+  ansible.builtin.file:
+    path: "/tmp/quarto-{{ quarto_version }}-linux-amd64.tar.gz"
+    state: absent
+  become: true
+  when: quarto_installed_version != quarto_version
+
+- name: Create symlink for Quarto binary
+  ansible.builtin.file:
+    src: "{{ quarto_install_dir }}/bin/quarto"
+    dest: "{{ quarto_bin_dir }}/quarto"
+    state: link
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+  become: true
+
+- name: Enable Typst COPR repository via dnf5
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf5 copr enable -y claaj/typst"
+    creates: "/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:claaj:typst.repo"
+
+- name: Install Typst via dnf5
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf5 install -y typst"
+  register: dnf5_typst_install
+  changed_when: "'Nothing to do' not in dnf5_typst_install.stdout"
+
+- name: Install Node.js and npm via dnf5
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf5 install -y nodejs npm"
+  register: dnf5_node_install
+  changed_when: "'Nothing to do' not in dnf5_node_install.stdout"
+
+- name: Install Marp CLI globally via npm
+  community.general.npm:
+    name: "@marp-team/marp-cli"
+    global: true
+    state: present
+  become: true
+
+- name: Check if .bashrc exists
+  ansible.builtin.stat:
+    path: "/home/{{ profile_admin_user }}/.bashrc"
+  register: bashrc_stat
+  become: true
+
+- name: Add ~/.local/bin to .bashrc PATH
+  ansible.builtin.lineinfile:
+    path: "/home/{{ profile_admin_user }}/.bashrc"
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    regexp: '^export PATH=.*\.local\/bin'
+    state: present
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  when: bashrc_stat.stat.exists
+
+- name: Check if .zshrc exists
+  ansible.builtin.stat:
+    path: "/home/{{ profile_admin_user }}/.zshrc"
+  register: zshrc_stat
+  become: true
+
+- name: Add ~/.local/bin to .zshrc PATH
+  ansible.builtin.lineinfile:
+    path: "/home/{{ profile_admin_user }}/.zshrc"
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    regexp: '^export PATH=.*\.local\/bin'
+    state: present
+    owner: "{{ profile_admin_user }}"
+    group: "{{ profile_admin_user }}"
+    mode: "0644"
+  become: true
+  when: zshrc_stat.stat.exists

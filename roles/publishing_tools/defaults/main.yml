@@ -1,0 +1,6 @@
+---
+# roles/publishing_tools/defaults/main.yml
+
+quarto_version: "1.10.14"
+quarto_install_dir: "/home/{{ profile_admin_user }}/.local/opt/quarto"
+quarto_bin_dir: "/home/{{ profile_admin_user }}/.local/bin"

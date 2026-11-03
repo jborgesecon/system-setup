@@ -16,3 +16,4 @@
     - role: zsh
     - role: neovim
     - role: virtualbox
+    - role: publishing_tools

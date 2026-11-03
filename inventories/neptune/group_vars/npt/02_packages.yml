@@ -12,15 +12,13 @@ rpm_packages:
     url: https://packages.microsoft.com/yumrepos/vscode/config.repo
     description: Microsoft Visual Studio Code repository
 
-  - name: virtualbox
-    url: https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
-    description: Oracle VirtualBox repository
-
 
 
 # COPR repositories needed before installing packages
 dnf_copr_repos:
   - aquacash5/nerd-fonts
+  - iucar/cran
+  # - claaj/typst   -- Obsolete: available via dnf
 
 # DNF managed apps
 dnf_packages:
@@ -84,7 +82,6 @@ dnf_packages:
   # RPM added
   - code
   - brave-browser
-  - VirtualBox-7.0
 
 
 dnf_remove_packages: []
@@ -94,6 +91,8 @@ flatpak_packages:
   - io.dbeaver.DBeaverCommunity
   - io.httpie.Httpie
   - com.discordapp.Discord
+  - com.tradingview.tradingview
+  - com.surfshark.Surfshark
   - org.telegram.desktop
   - org.torproject.torbrowser-launcher
 

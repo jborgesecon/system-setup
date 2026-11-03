@@ -37,8 +37,8 @@
 - name: Ensure DNF packages are absent
   become: true
   ansible.builtin.dnf:
-    name: "{{ dnf_packages | default([]) }}"
+    name: "{{ dnf_remove_packages | default([]) }}"
     state: absent
   when:
     - profile_state == "clean"
-    - dnf_packages is defined and dnf_packages | length > 0
+    - dnf_remove_packages is defined and dnf_remove_packages | length > 0

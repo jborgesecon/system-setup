@@ -1,6 +1,36 @@
 ---
 # roles/virtualbox/tasks/main.yml
 
+- name: Import Oracle VirtualBox GPG Key
+  become: true
+  ansible.builtin.rpm_key:
+    state: present
+    key: "{{ virtualbox_gpg_key_url }}"
+  when: profile_state == "provision"
+
+- name: Ensure Oracle VirtualBox repository is added
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ virtualbox_repo_url }}"
+    dest: "/etc/yum.repos.d/virtualbox.repo"
+    mode: "0644"
+  when: profile_state == "provision"
+
+- name: Ensure conflicting VirtualBox packages are absent
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ virtualbox_conflicting_packages + [ (virtualbox_is_f43_k7 | ternary('VirtualBox-7.0', 'VirtualBox-7.2')) ] }}"
+    state: absent
+  when: profile_state == "provision"
+
+- name: Ensure correct VirtualBox package is installed
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ virtualbox_package_name }}"
+    state: present
+    update_cache: true
+  when: profile_state == "provision"
+
 - name: Build VirtualBox kernel modules
   become: true
   ansible.builtin.command: "{{ virtualbox_vboxconfig_path }}"
@@ -26,3 +56,25 @@
     - profile_state == "provision"
     - virtualbox_users is defined
     - virtualbox_users | length > 0
+
+- name: Update Guest Additions ISO path for all VMs
+  become: true
+  become_user: "{{ profile_admin_user }}"
+  ansible.builtin.shell: |
+    vboxmanage list vms | while read -r line; do
+      uuid=$(echo "$line" | sed -n 's/.*{\(.*\)}/\1/p')
+      if [ -n "$uuid" ]; then
+        vboxmanage showvminfo "$uuid" --machinereadable | grep -i "VBoxGuestAdditions.iso" | while read -r attachment; do
+          if [[ "$attachment" =~ ^\"(.*)-([0-9]+)-([0-9]+)\"= ]]; then
+            controller="${BASH_REMATCH[1]}"
+            port="${BASH_REMATCH[2]}"
+            device="${BASH_REMATCH[3]}"
+            vboxmanage storageattach "$uuid" --storagectl "$controller" --port "$port" --device "$device" --type dvddrive --medium "{{ virtualbox_guest_additions_iso }}" || true
+          fi
+        done
+      fi
+    done
+  register: update_guest_additions
+  changed_when: False
+  failed_when: False
+  when: profile_state == "provision"

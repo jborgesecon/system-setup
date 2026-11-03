@@ -25,6 +25,8 @@
       # other
       - python3-jupyter-core
       - python3-flask
+      - python3-fastapi
+      - python3-yfinance
       - python3-faker
     state: present
 

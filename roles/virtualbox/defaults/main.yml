@@ -5,3 +5,20 @@ virtualbox_vboxconfig_path: /sbin/vboxconfig
 virtualbox_kernel_module: "/lib/modules/{{ ansible_kernel }}/misc/vboxdrv.ko"
 virtualbox_group: vboxusers
 virtualbox_users: []
+
+# Oracle VirtualBox Package Management
+virtualbox_gpg_key_url: "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+virtualbox_repo_url: "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
+virtualbox_guest_additions_iso: "/usr/share/virtualbox/VBoxGuestAdditions.iso"
+
+# Package version selection based on Fedora 43+ / Kernel 7.0+ compatibility
+virtualbox_is_f43_k7: "{{ ansible_distribution == 'Fedora' and ansible_distribution_major_version | int >= 43 and ansible_kernel is version('7.0.0', '>=') }}"
+virtualbox_package_name: "{{ virtualbox_is_f43_k7 | ternary('VirtualBox-7.2', 'VirtualBox-7.0') }}"
+
+# Conflicting packages to remove
+virtualbox_conflicting_packages:
+  - VirtualBox
+  - VirtualBox-server
+  - VirtualBox-kmodsrc
+  - akmod-VirtualBox
+  - kmod-VirtualBox
