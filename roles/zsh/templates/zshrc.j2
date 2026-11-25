@@ -55,6 +55,10 @@ zmodload zsh/terminfo
 [[ -n "${terminfo[kpp]}" ]] && bindkey "${terminfo[kpp]}" up-line-or-history
 [[ -n "${terminfo[knp]}" ]] && bindkey "${terminfo[knp]}" down-line-or-history
 
+# ===== aliases =====
+alias python-data="/opt/python-data/bin/python"
+alias pyd="/opt/python-data/bin/python"
+
 # ===== plugin configurations =====
 # Enable command suggestions from the completion engine as a fallback for history
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)

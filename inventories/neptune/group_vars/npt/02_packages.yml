@@ -46,20 +46,16 @@ dnf_packages:
   - unzip
   - httpie
   - yt-dlp
+  - xclip
 
   # development & data analysis
   - git
   - python3
-  - python3-dnf
-  - python3-dbus
-  - python3-gobject
-  - pipx
-  - jupyterlab
 
   - R
-  - R-rmarkdown
+  - R-CRAN-rmarkdown
   - texlive-scheme-basic
-  - pandoc
+  - pandoc-cli
 
   - gretl
   - postgresql

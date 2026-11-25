@@ -1,0 +1,65 @@
+---
+# roles/python/defaults/main.yml
+
+python_data_venv_path: /opt/python-data
+
+python_system_build_deps:
+  - python3
+  - python3-pip
+  - python3-devel
+  - gcc
+  - gcc-c++
+  - make
+  - libffi-devel
+  - openssl-devel
+
+python_data_packages:
+  # Scientific computing
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - statsmodels
+
+  # Visualization
+  - matplotlib
+  - seaborn
+  - plotly
+
+  # Modern data engineering
+  - pyarrow
+  - polars
+  - duckdb
+
+  # Database and connectivity
+  - requests
+  - openpyxl
+  - psycopg2-binary
+  - sqlalchemy
+
+  # Web development
+  - flask
+  - fastapi
+
+  # Applications
+  - streamlit
+  - ipykernel
+  - jupyterlab
+  - jupyterlab-lsp
+
+  # Other utilities
+  - yfinance
+  - faker
+  - python-dotenv
+
+python_data_wrapper_path: /usr/local/bin/python-data
+
+python_data_symlinks:
+  - src: "{{ python_data_venv_path }}/bin/pip"
+    dest: /usr/local/bin/pip-data
+  - src: "{{ python_data_venv_path }}/bin/jupyter-lab"
+    dest: /usr/local/bin/jupyter-lab
+  - src: "{{ python_data_venv_path }}/bin/jupyter"
+    dest: /usr/local/bin/jupyter
+  - src: "{{ python_data_venv_path }}/bin/streamlit"
+    dest: /usr/local/bin/streamlit

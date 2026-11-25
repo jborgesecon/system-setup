@@ -8,12 +8,22 @@
 
   roles:
     - role: core_packages
-    - role: postgresql
+      tags: [core_packages, packages]
     - role: python
+      tags: [python]
+    - role: postgresql
+      tags: [postgresql]
     - role: r_lang
+      tags: [r_lang, r]
     - role: alacritty
+      tags: [alacritty, configs]
     - role: tmux
+      tags: [tmux, configs]
     - role: zsh
+      tags: [zsh, configs]
     - role: neovim
+      tags: [neovim, configs]
     - role: virtualbox
+      tags: [virtualbox]
     - role: publishing_tools
+      tags: [publishing_tools]

@@ -11,15 +11,15 @@
 - name: Run DNF package tasks
   ansible.builtin.include_tasks: dnf_packages.yml
   when:
-    - ansible_pkg_mgr is defined
-    - ansible_pkg_mgr in ['dnf', 'dnf5']
+    - ansible_facts['pkg_mgr'] is defined
+    - ansible_facts['pkg_mgr'] in ['dnf', 'dnf5']
 
 # 3. Manage APT packages when running on Debian/Ubuntu
 - name: Run APT package tasks
   ansible.builtin.include_tasks: apt.yml
   when:
-    - ansible_pkg_mgr is defined
-    - ansible_pkg_mgr == 'apt'
+    - ansible_facts['pkg_mgr'] is defined
+    - ansible_facts['pkg_mgr'] == 'apt'
 
 # 4. Run Flatpak tasks for everyone (if they have flatpaks defined)
 - name: Run cross-platform Flatpak tasks

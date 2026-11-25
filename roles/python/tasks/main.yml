@@ -1,36 +1,106 @@
 ---
 # roles/python/tasks/main.yml
 
-- name: Install core Python scientific stack via RPMs
+- name: Ensure Python runtime and system build dependencies
+  become: true
   ansible.builtin.dnf:
+    name: "{{ python_system_build_deps }}"
+    state: present
+
+- name: Check system Python major.minor version
+  ansible.builtin.command:
+    cmd: python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
+  register: system_python_ver
+  changed_when: false
+
+- name: Check virtual environment Python major.minor version
+  ansible.builtin.command:
+    cmd: "{{ python_data_venv_path }}/bin/python -c \"import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')\""
+  register: venv_python_ver
+  changed_when: false
+  failed_when: false
+
+- name: Create shared Python environment directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ python_data_venv_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create or rebuild shared Python virtual environment
+  become: true
+  ansible.builtin.command:
+    cmd: "python3 -m venv --clear {{ python_data_venv_path }}"
+  when: venv_python_ver.rc != 0 or (venv_python_ver.stdout | trim) != (system_python_ver.stdout | trim)
+
+- name: Upgrade pip tooling in shared Python environment
+  become: true
+  ansible.builtin.pip:
     name:
-      # core data & analysis
-      - python3-numpy
-      - python3-pandas
-      - python3-scipy
-      - python3-scikit-learn
-      - python3-statsmodels
+      - pip
+      - setuptools
+      - wheel
+    state: latest
+    virtualenv: "{{ python_data_venv_path }}"
 
-      # visualization
-      - python3-matplotlib
-      - python3-seaborn
-      - python3-plotly
-
-      # access & workflow
-      - python3-requests
-      - python3-openpyxl
-      - python3-psycopg2
-      - python3-sqlalchemy
-
-      # other
-      - python3-jupyter-core
-      - python3-flask
-      - python3-fastapi
-      - python3-yfinance
-      - python3-faker
+- name: Install complete shared Python ecosystem
+  become: true
+  ansible.builtin.pip:
+    name: "{{ python_data_packages }}"
     state: present
+    virtualenv: "{{ python_data_venv_path }}"
 
-- name: Install Streamlit globally with pipx
-  community.general.pipx:
-    name: streamlit
-    state: present
+- name: Check Jupyter kernel spec configuration
+  ansible.builtin.slurp:
+    src: "{{ python_data_venv_path }}/share/jupyter/kernels/python3/kernel.json"
+  register: jupyter_kernel_json
+  failed_when: false
+
+- name: Parse Jupyter kernel spec argv
+  ansible.builtin.set_fact:
+    jupyter_kernel_exec: "{{ (jupyter_kernel_json.content | b64decode | from_json).argv[0] if (jupyter_kernel_json is defined and jupyter_kernel_json.content is defined) else '' }}"
+
+- name: Pin Jupyter kernel spec explicitly to /opt/python-data interpreter
+  become: true
+  ansible.builtin.command:
+    cmd: >
+      {{ python_data_venv_path }}/bin/python -m ipykernel install
+      --prefix={{ python_data_venv_path }}
+      --name python3
+      --display-name "Python 3 (python-data)"
+  when: jupyter_kernel_exec != (python_data_venv_path ~ '/bin/python')
+
+- name: Check if python-data wrapper is a symlink
+  ansible.builtin.stat:
+    path: "{{ python_data_wrapper_path }}"
+  register: python_data_wrapper_stat
+
+- name: Remove old python-data symlink before creating wrapper script
+  become: true
+  ansible.builtin.file:
+    path: "{{ python_data_wrapper_path }}"
+    state: absent
+  when: python_data_wrapper_stat.stat.exists and python_data_wrapper_stat.stat.islnk
+
+- name: Create global python-data wrapper executable
+  become: true
+  ansible.builtin.copy:
+    dest: "{{ python_data_wrapper_path }}"
+    content: |
+      #!/usr/bin/env sh
+      exec {{ python_data_venv_path }}/bin/python "$@"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Expose shared Python executables globally
+  become: true
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  loop: "{{ python_data_symlinks }}"
+  loop_control:
+    label: "{{ item.dest }}"

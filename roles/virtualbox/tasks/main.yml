@@ -1,37 +1,21 @@
 ---
 # roles/virtualbox/tasks/main.yml
 
-- name: Import Oracle VirtualBox GPG Key
+- name: Ensure obsolete Oracle VirtualBox repository is removed
   become: true
-  ansible.builtin.rpm_key:
-    state: present
-    key: "{{ virtualbox_gpg_key_url }}"
-  when: profile_state == "provision"
-
-- name: Ensure Oracle VirtualBox repository is added
-  become: true
-  ansible.builtin.get_url:
-    url: "{{ virtualbox_repo_url }}"
-    dest: "/etc/yum.repos.d/virtualbox.repo"
-    mode: "0644"
-  when: profile_state == "provision"
-
-- name: Ensure conflicting VirtualBox packages are absent
-  become: true
-  ansible.builtin.dnf:
-    name: "{{ virtualbox_conflicting_packages + [ (virtualbox_is_f43_k7 | ternary('VirtualBox-7.0', 'VirtualBox-7.2')) ] }}"
+  ansible.builtin.file:
+    path: "/etc/yum.repos.d/virtualbox.repo"
     state: absent
   when: profile_state == "provision"
 
-- name: Ensure correct VirtualBox package is installed
+- name: Ensure VirtualBox and akmod packages from RPM Fusion are installed
   become: true
   ansible.builtin.dnf:
-    name: "{{ virtualbox_package_name }}"
+    name: "{{ virtualbox_packages }}"
     state: present
-    update_cache: true
   when: profile_state == "provision"
 
-- name: Build VirtualBox kernel modules
+- name: Build VirtualBox kernel modules via akmods
   become: true
   ansible.builtin.command: "{{ virtualbox_vboxconfig_path }}"
   args:
@@ -75,6 +59,6 @@
       fi
     done
   register: update_guest_additions
-  changed_when: False
-  failed_when: False
+  changed_when: false
+  failed_when: false
   when: profile_state == "provision"

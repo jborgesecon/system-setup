@@ -1,8 +1,8 @@
 ---
 # inventories/neptune/group_vars/npt/04_virtualization.yml
 
-virtualbox_vboxconfig_path: /sbin/vboxconfig
-virtualbox_kernel_module: "/lib/modules/{{ ansible_kernel }}/misc/vboxdrv.ko"
+virtualbox_vboxconfig_path: /usr/bin/akmods
+virtualbox_kernel_module: "/lib/modules/{{ ansible_facts['kernel'] }}/extra/VirtualBox/vboxdrv.ko.xz"
 virtualbox_group: vboxusers
 virtualbox_users:
   - "{{ profile_admin_user }}"
